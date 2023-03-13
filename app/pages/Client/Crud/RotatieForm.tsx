@@ -1,34 +1,30 @@
-// @ts-nocheck
 "use client"
 import { useState } from 'react'
-import FileBase64 from 'react-file-base64';
+import { FileBase64 } from 'react-file-base64';
 import { useGlobalContextCrop } from '../../../features/Context/culturaStore';
 import { useGlobalContext } from '../../../features/Context/UserStore';
 
 
 function RotatieForm() {
-  const [titlu, setTitlu] = useState('')
+  const [title, setTitle] = useState('')
   const [text, setText] = useState('')
-  const [descriere, setDescriere] = useState('')
+  const [description, setDescription] = useState('')
   const [image, setImage] = useState('')
 
 
   const { createCrop } = useGlobalContextCrop()
   const { data } = useGlobalContext()
-  const { user } = data
 
-
- 
-  const onSubmit = (e) => {
+  const onSubmit = (e : any) => {
     e.preventDefault()
-    if (!titlu || !text || !descriere || !image) {
+    if (!title || !text || !description || !image) {
       alert('Ceva lipseste')
       return
     }
-    createCrop({ titlu, text, descriere, image },data.token)
-    setTitlu('')
+    createCrop({ title, text, description, image },data.token)
+    setTitle('')
     setText('')
-    setDescriere('')
+    setDescription('')
     setImage('')    
   }
 
@@ -43,11 +39,11 @@ function RotatieForm() {
         <div className='form-group'>
         <label htmlFor='titlu'>Titlu:</label>
            <input
-            type='titlu'
-            name='titlu'
-            id='titlu'
-            value={titlu}
-            onChange={(e) => setTitlu(e.target.value)}
+            type='title'
+            name='title'
+            id='title'
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
           />
 
           <label htmlFor='text'>Pe scurt:</label>
@@ -64,8 +60,8 @@ function RotatieForm() {
             type='Descriere'
             name='Descriere'
             id='Descriere'
-            value={descriere}
-            onChange={(e) => setDescriere(e.target.value) }
+            value={description}
+            onChange={(e) => setDescription(e.target.value) }
           />
 
          <h3 className="text-center mb-4">Add Image</h3>

@@ -1,4 +1,3 @@
-// @ts-nocheck
 "use client"
 import {useEffect, useState} from 'react'
 import {FaSignInAlt} from 'react-icons/fa'
@@ -18,7 +17,7 @@ function Login() {
     const { email, password } = formData
   
 
-    const { data, setData, error, setError, loading, setLoading, register, login } = useGlobalContext()
+    const { data, setData, error, setError, loading, login } = useGlobalContext()
 
   const navigate = useRouter()
 

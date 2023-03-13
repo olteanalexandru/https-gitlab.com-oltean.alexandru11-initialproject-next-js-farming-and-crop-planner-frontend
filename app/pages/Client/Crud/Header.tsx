@@ -1,5 +1,4 @@
 'use client'
-// @ts-nocheck
 import {FaSignInAlt, FaSignOutAlt, FaUser} from 'react-icons/fa'
 import {useGlobalContext} from '../../../features/Context/UserStore';
 import Link from 'next/link';
@@ -7,19 +6,12 @@ import {useRouter} from 'next/navigation';
 
 
 function HeaderLog() {
-  const { data, setData, error, setError, loading, setLoading, register, login, logout } = useGlobalContext()
+  const { data,  logout } = useGlobalContext()
 
   
 
   const navigate = useRouter() ;
-  // const dispatch = useDispatch<AppDispatch>()
-  // const { user } = useSelector((state : RootState) => state.auth) 
-
-  // const onLogout = () => {
-  //   dispatch(logout())
-  //   dispatch(reset())
-  //   navigate.push('/')
-  // }
+  
 
   const onLogout = () => {
     logout()

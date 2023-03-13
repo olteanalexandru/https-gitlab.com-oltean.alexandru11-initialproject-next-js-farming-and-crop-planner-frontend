@@ -9,8 +9,11 @@ const API_URL_crops = 'http://localhost:5000/api/crops/Crops/'
 
 
 type DataType = {
+
   title: string
   description: string
+  image: string
+  text: string
   category: string
   startDate: string
   endDate: string

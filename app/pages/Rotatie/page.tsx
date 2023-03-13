@@ -29,6 +29,22 @@ export default function Rotatie() {
     return <Spinner />
   }
 
+  type Crop = {
+    _id: string
+    title: string
+    description: string
+    category: string
+    startDate: string
+    endDate: string
+    status: string
+    progress: number
+    priority: string
+    user: string
+    selectare: boolean
+    token: string
+  }
+
+
 
 return (
 
@@ -38,7 +54,7 @@ return (
     <div  >
           <GridGenerator   cols={3}  >
 
-            {crops.map((crop ) => {
+            {crops.map((crop : Crop ) => {
               return (
                 <div style={{marginBottom:'4rem', minHeight:'200px' }}  >
                 <Continut  key={crop._id} crop={crop} />
