@@ -2,17 +2,10 @@
 
 import { createContext, useContext, Dispatch , SetStateAction , useState } from 'react';
 
-import axios, { AxiosRequestConfig } from 'axios'
+import axios from 'axios'
 
-//user store
-import { useGlobalContext } from '../../features/Context/UserStore';
-
-
-
-const API_URL = 'http://localhost:5000/api/goals/'
-const API_URL_goals = 'http://localhost:5000/api/goals/Goals/'
-
-
+const API_URL = 'http://localhost:5000/api/crops/'
+const API_URL_crops = 'http://localhost:5000/api/crops/Crops/'
 
 
 type DataType = {
@@ -25,21 +18,13 @@ type DataType = {
   progress: number
   priority: string
   user: string
-  programare: string
+  selectare: boolean
   token: string
-
 }
-
-
-type Err = {
-  error: string;
-}
-
-
 
 interface ContextProps {
-  goals: any;
-  setGoals: Dispatch<SetStateAction<any>>;
+  crops: any;
+  setCrops: Dispatch<SetStateAction<any>>;
   isLoading: boolean;
   setIsLoading: Dispatch<SetStateAction<boolean>>;
   isError: boolean;
@@ -48,22 +33,18 @@ interface ContextProps {
   setIsSuccess: Dispatch<SetStateAction<boolean>>;
   message: string;
   setMessage: Dispatch<SetStateAction<string>>;
-  createGoal: (data: DataType) => Promise<void>;
-  getGoals: () => Promise<void>;
-  deleteGoal: (id: string) => Promise<void>;
-  programare: (id: string, programare: string, token: string ) => Promise<void>;
+  createCrop: (data: DataType,token:string ) => Promise<void>;
+  getCrops: () => Promise<void>;
+  deleteCrop: (id: string) => Promise<void>;
+  selectare: (id: string, selectare: boolean, _id:string, token: string ) => Promise<void>;
   SinglePage: (id: string) => Promise<void>;
-  getAllGoals: () => Promise<void>;
-  token : any;
-setToken : Dispatch<SetStateAction<any>>;
-
-
+  getAllCrops: () => Promise<void>;
 }
 
 
 const ContextProps  = createContext<ContextProps>({
-    goals: [],
-    setGoals: () => {},
+    crops: [],
+    setCrops: () => {},
     isLoading: false,
     setIsLoading: () => {},
     isError: false,
@@ -72,16 +53,13 @@ const ContextProps  = createContext<ContextProps>({
     setIsSuccess: () => {},
     message: '',
     setMessage: () => {},
-    createGoal: () => Promise.resolve(),
-    getGoals: () => Promise.resolve(),
-    deleteGoal: () => Promise.resolve(),
-    programare: () => Promise.resolve(),
+    createCrop: () => Promise.resolve(),
+    getCrops: () => Promise.resolve(),
+    deleteCrop: () => Promise.resolve(),
+    selectare: () => Promise.resolve(),
     SinglePage: () => Promise.resolve(),
-    getAllGoals: () => Promise.resolve(),
-    token: [],
-    setToken: () => {},
-
-
+    getAllCrops: () => Promise.resolve(),
+  
 
 }
 
@@ -94,20 +72,20 @@ interface Props {
 
 
   const GlobalContext = createContext<ContextProps>({} as ContextProps);
-
  export const GlobalContextProvider: React.FC<Props> = ({ children }) => {
 
    
-    const [goals, setGoals] = useState([]);
+    const [crops, setCrops] = useState([]);
     const [token, setToken] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
     const [isError, setIsError] = useState(false);
     const [isSuccess, setIsSuccess] = useState(false);
     const [message, setMessage] = useState('');
+
     
     
 
-    const createGoal = async (data: DataType , token: string ) => {
+    const createCrop = async (data: DataType , token: string ) => {
         setIsLoading(true);
         try {
         const response = await axios.post(API_URL, data, {
@@ -117,42 +95,38 @@ interface Props {
         });
         if (response.status === 201) {
             setIsSuccess(true);
-            setMessage('Goal created successfully');
+            setMessage('Crop created successfully');
         } else {
             setIsError(true);
-            setMessage('Error creating goal');
+            setMessage('Error creating crop');
         }
         } catch (err) {
         setIsError(true);
-        setMessage('Error creating goal');
+        setMessage('Error creating crop');
         }
         setIsLoading(false);
     };
 
     
-        
-
-
-    
-    const getGoals = async () => {
+    const getCrops = async () => {
         setIsLoading(true);
         try {
         const response = await fetch(API_URL);
         if (response.ok) {
             const data = await response.json();
-            setGoals(data);
+            setCrops(data);
         } else {
             setIsError(true);
-            setMessage('Error getting goals');
+            setMessage('Error getting crops');
         }
         } catch (err) {
         setIsError(true);
-        setMessage('Error getting goals');
+        setMessage('Error getting crops');
         }
         setIsLoading(false);
     };
     
-    const deleteGoal = async (id: string) => {
+    const deleteCrop = async (id: string) => {
         setIsLoading(true);
         try {
         const response = await fetch(`${API_URL}${id}`, {
@@ -160,71 +134,65 @@ interface Props {
         });
         if (response.ok) {
             setIsSuccess(true);
-            setMessage('Goal deleted successfully');
+            setMessage('Crop deleted successfully');
         } else {
             setIsError(true);
-            setMessage('Error deleting goal');
+            setMessage('Error deleting crop');
         }
         } catch (err) {
         setIsError(true);
-        setMessage('Error deleting goal');
+        setMessage('Error deleting crop');
         }
         setIsLoading(false);
     };
     
 
 
-    const programare= async (id: string, programare: string , _id: string , token: string ) => {
+    const selectare= async (id: string, selectare: boolean , _id: string , token: string ) => {
 
-        const response = await axios.post(API_URL_goals + id, { programare : programare , _id: _id, }, {
+        const response = await axios.post(API_URL_crops + id, { selectare : selectare , _id: _id, }, {
             headers: {
                 Authorization: `Bearer ${token}`,
             },
         });
 
-    const goals = await response.data;
-    setGoals(goals);
+    const crops = await response.data;
+    setCrops(crops);
     }
-
-
-
-
-
-
 
 
     const SinglePage = async (id: string) => {
         setIsLoading(true);
         try {
-        const response = await fetch(`${API_URL_goals}${id}`);
+        const response = await fetch(`${API_URL_crops}${id}`);
         if (response.ok) {
             const data = await response.json();
-            setGoals(data);
+            setCrops(data);
         } else {
             setIsError(true);
-            setMessage('Error getting goals');
+            setMessage('Error getting crops');
         }
         } catch (err) {
         setIsError(true);
-        setMessage('Error getting goals');
+        setMessage('Error getting crops');
         }
         setIsLoading(false);
     }
 
-    const getAllGoals = async () => {
+    const getAllCrops = async () => {
         setIsLoading(true);
         try {
-        const response = await fetch(API_URL_goals);
+        const response = await fetch(API_URL_crops);
         if (response.ok) {
             const data = await response.json();
-            setGoals(data);
+            setCrops(data);
         } else {
             setIsError(true);
-            setMessage('Error getting goals');
+            setMessage('Error getting crops');
         }
         } catch (err) {
         setIsError(true);
-        setMessage('Error getting goals');
+        setMessage('Error getting crops');
         }
         setIsLoading(false);
     }
@@ -232,8 +200,8 @@ interface Props {
     return (
         <GlobalContext.Provider
         value={{
-            goals,
-            setGoals,
+            crops,
+            setCrops,
             isLoading,
             setIsLoading,
             isError,
@@ -242,12 +210,12 @@ interface Props {
             setIsSuccess,
             message,
             setMessage,
-            createGoal,
-            getGoals,
-            deleteGoal,
-            programare,
+            createCrop,
+            getCrops,
+            deleteCrop,
+            selectare,
             SinglePage,
-            getAllGoals,
+            getAllCrops,
         }}
         >
         {children}
@@ -255,7 +223,7 @@ interface Props {
     );
 };
 
-export const useGlobalContextGoal = () => {
+export const useGlobalContextCrop = () => {
     return useContext(GlobalContext);
 }
 

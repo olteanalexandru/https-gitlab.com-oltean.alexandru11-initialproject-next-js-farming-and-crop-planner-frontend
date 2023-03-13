@@ -1,4 +1,4 @@
-// @ts-nocheck
+
 
 export default function Vanzari() {
   return (

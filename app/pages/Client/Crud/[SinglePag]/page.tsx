@@ -4,43 +4,46 @@ import { useEffect, useState } from 'react'
 import { useSearchParams} from 'next/navigation'
 import { Form } from 'react-bootstrap';
 import { Container } from 'react-bootstrap';
-import Client from './client'
 import { useGlobalContext } from '../../../../features/Context/UserStore';
-import { useGlobalContextGoal } from '../../../../features/Context/culturaStore';
+import { useGlobalContextCrop } from '../../../../features/Context/culturaStore';
 
 
 function SinglePag( ): JSX.Element{
 
+  if (localStorage.getItem('user') === null) {
+    return <h1>Accesul interzis</h1>
+  } 
+
+  
     const { data } = useGlobalContext()
 
-    // const user = data
-    // const token = data.token
 
-    const  _id = useSearchParams().get("goal")
+
+    const  _id = useSearchParams().get("crop") as string
     const user = localStorage.getItem('user')
-    const Localuser = localStorage.getItem('user')
-    const LocaluserId = JSON.parse(Localuser)._id
-    const token = JSON.parse(user).token
+    const Localuser  = localStorage.getItem('user')
+    const LocaluserId = Localuser !== null ? JSON.parse(Localuser)._id : null
+    const token = user !== null ? JSON.parse(user).token : null
 
     const { 
-      goals,
-      setGoals,
+      crops,
+      setCrops,
       isLoading,
       isError,
       isSuccess,
       message,
-      programare,
+      selectare,
       SinglePage,
-      } = useGlobalContextGoal();
+      } = useGlobalContextCrop();
 
 
-    const [programarea, setProgramarea] = useState(false);
+    const [selectarea, setSelectarea] = useState(false);
 
     useEffect(() => {
       if (isError) {
         console.log(message)
       }
-      SinglePage(_id)
+      SinglePage(_id )
     }, [  isError, message, _id])
 
     if (isLoading) {
@@ -56,25 +59,27 @@ function SinglePag( ): JSX.Element{
 
 
 
-console.log(LocaluserId)
+// console.log(LocaluserId)
+console.log(selectare)
 
 
 
 
     const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
       e.preventDefault();
-      if (data && data.rol === "client" && programarea === true || data && data.rol === "admin" && programarea === true) {
-        await programare(_id , programarea , LocaluserId  , token)
-        setProgramarea(false)
-      } else if (data && data.rol === "client" && programarea === false || data && data.rol === "admin" && programarea === false) {
-        await programare(_id , programarea , LocaluserId , token) 
-        setProgramarea(true)
+      if (data && data.rol === "client" && selectarea === true || data && data.rol === "admin" && selectarea === true) {
+        await selectare(_id , selectarea , LocaluserId  , token)
+        setSelectarea(false)
+      } else if (data && data.rol === "client" && selectarea === false || data && data.rol === "admin" && selectarea === false) {
+        await selectare(_id , selectarea , LocaluserId , token) 
+        setSelectarea(true)
 
     }
     }
+  
 
 
-    function GoalData() {
+    function CropData() {
       if (isError) {
         return <h1>Something went wrong.</h1>;
       } else if (data && data.rol === "client") {
@@ -83,12 +88,12 @@ console.log(LocaluserId)
             <p>Selectare cultura</p>
             <Form onSubmit={onSubmit} >
               <div className="form-check">
-                <input className="form-check-input" type="checkbox" value={programarea} onChange={(e) => setProgramarea(e.target.checked)} id="defaultCheck1" />
+                <input className="form-check-input" type="checkbox" value={selectarea} onChange={(e) => setSelectarea(e.target.checked)} id="defaultCheck1" />
                 <label className="form-check-label" htmlFor="defaultCheck1">
                   Selecteaza
                 </label>
               </div>
-              <button type='submit' className='btn btn-primary'>Programare</button>
+              <button type='submit' className='btn btn-primary'>Selectare</button>
             </Form>
           </>
         )
@@ -98,12 +103,12 @@ console.log(LocaluserId)
             <p>Selectare cultura</p>
             <Form onSubmit={onSubmit} >
               <div className="form-check">
-                <input className="form-check-input" type="checkbox" value={programarea} onChange={(e) => setProgramarea(e.target.checked)} id="defaultCheck1" />
+                <input className="form-check-input" type="checkbox" value={selectarea} onChange={(e) => setSelectarea(e.target.checked)} id="defaultCheck1" />
                 <label className="form-check-label" htmlFor="defaultCheck1">
                   Selecteaza
                 </label>
               </div>
-              <button type='submit' className='btn btn-primary'>Programare</button>
+              <button type='submit' className='btn btn-primary'>Selectare</button>
             </Form>
           </>
         )
@@ -116,15 +121,15 @@ console.log(LocaluserId)
 <Container>
 <div id="background" className="jumbotron textCenter " style={{ 'borderBottom': '1px darkgray dotted' }}>
 <div className=" thumbnail">
-<p><strong>{goals["titlu"]}</strong></p>
-<h3>Pe scurt:</h3><p>{goals["text"]}</p>
-<h3>Pe Lung:</h3><p>{goals["descriere"]}</p>
-{(goals["programare"]) ?  <> <h3>Selectat</h3> <p> {goals["programare"]} </p></> : <p>ne selectat</p>}
+<p><strong>{crops["titlu"]}</strong></p>
+<h3>Pe scurt:</h3><p>{crops["text"]}</p>
+<h3>Pe Lung:</h3><p>{crops["descriere"]}</p>
+{(crops["selectare"] && crops["selectareBy"]== LocaluserId ) ?  <> <h3>Selectat</h3> <p> {crops["selectare"]} </p></> : <p>ne selectat</p>}
 <h1>{token}</h1>
 </div>
-<p>Data adaugarii: {new Date(goals["createdAt"]).toLocaleString('en-US')}</p>
+<p>Data adaugarii: {new Date(crops["createdAt"]).toLocaleString('en-US')}</p>
 </div>
-<GoalData/>
+<CropData/>
 </Container>
  </>
 )}

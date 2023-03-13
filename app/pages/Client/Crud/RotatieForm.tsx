@@ -2,11 +2,8 @@
 "use client"
 import { useState } from 'react'
 import FileBase64 from 'react-file-base64';
-import { useGlobalContextGoal } from '../../../features/Context/culturaStore';
+import { useGlobalContextCrop } from '../../../features/Context/culturaStore';
 import { useGlobalContext } from '../../../features/Context/UserStore';
-import { useRouter } from 'next/navigation';
-import { Container , Card} from 'react-bootstrap'
-import LinkParola from '../Elemente/page'
 
 
 function RotatieForm() {
@@ -16,7 +13,7 @@ function RotatieForm() {
   const [image, setImage] = useState('')
 
 
-  const { createGoal } = useGlobalContextGoal()
+  const { createCrop } = useGlobalContextCrop()
   const { data } = useGlobalContext()
   const { user } = data
 
@@ -28,7 +25,7 @@ function RotatieForm() {
       alert('Ceva lipseste')
       return
     }
-    createGoal({ titlu, text, descriere, image },data.token)
+    createCrop({ titlu, text, descriere, image },data.token)
     setTitlu('')
     setText('')
     setDescriere('')

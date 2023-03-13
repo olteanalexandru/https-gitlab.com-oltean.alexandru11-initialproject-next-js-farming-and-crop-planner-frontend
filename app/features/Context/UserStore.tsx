@@ -14,11 +14,6 @@ type DataType = {
     token: string;
 }
 
-
-type Err = {
-    error: string;
-}
-
 interface ContextProps {
     data: DataType;
     setData: Dispatch<SetStateAction<DataType>>;
@@ -29,7 +24,7 @@ interface ContextProps {
     register: (rol: string, name: string, email: string, password: string) => Promise<void>;
     login: (email: string, password: string) => Promise<void>;
     logout: () => void;
-    modify: (email: string, password: string) => Promise<void>;
+    modify: (id: string , password: string) => Promise<void>;
 }
 
 interface Props {
@@ -44,30 +39,6 @@ export const GlobalContextProvider: React.FC<Props> = ({ children }) => {
     const [error, setError] = useState<string>('');
     const [loading, setLoading] = useState<boolean>(false);
 
-    // const register = async (rol: string, name: string, email: string, password: string  ) => {
-    //     setLoading(true);
-    //     try {
-    //         const response = await fetch(API_URL , {
-    //             method: 'POST',
-    //             headers: {
-    //                 'Content-Type': 'application/json',
-    //             },
-    //             body: JSON.stringify({rol, name, email, password}),
-    //         });
-    //         const data = await response.json();
-    //         if (data.error) {
-    //             setError(data.error);
-    //             setLoading(false);
-    //         } else {
-    //             setData(data);
-    //             setLoading(false);
-    //             localStorage.setItem('user', JSON.stringify(response.data))
-    //         }
-    //     } catch (error: unknown) {
-    //         setError(error);
-    //         setLoading(false);
-    //     }
-    // };
 
     const register = async (rol: string, name: string, email: string, password: string  ) => {
         setLoading(true);
@@ -87,39 +58,15 @@ export const GlobalContextProvider: React.FC<Props> = ({ children }) => {
                 setLoading(false);
                 localStorage.setItem('user', JSON.stringify(response.data))
             }
-        } catch (error: unknown) {
-            setError(error);
+        } catch (error:any ) {
+            setError(error);  
             setLoading(false);
         }
     };
 
 
 
-    // const login = async (email: string, password: string) => {
-    //     setLoading(true);
-    //     try {
-    //         const response = await fetch(API_URL + 'login', {
-    //             method: 'POST',
-    //             headers: {
-    //                 'Content-Type': 'application/json',
-    //             },
-    //             body: JSON.stringify({ email, password }),
 
-    //         });
-    //         const data = await response.json();
-    //         if (data.error) {
-    //             setError(data.error);
-    //             setLoading(false);
-    //         } else {
-    //             setData(data);
-    //             setLoading(false);
-    //             localStorage.setItem('user', JSON.stringify(response.data))
-    //         }
-    //     } catch (error) {
-    //         setError(error.message.toString());
-    //         setLoading(false);
-    //     }
-    // };
 
     const login = async (email: string, password: string) => {
         setLoading(true);
@@ -137,7 +84,7 @@ export const GlobalContextProvider: React.FC<Props> = ({ children }) => {
                 setLoading(false);
                 localStorage.setItem('user', JSON.stringify(response.data))
             }
-        } catch (error) {
+        } catch (error: any) {
             setError(error.message.toString());
             setLoading(false);
         }
@@ -145,21 +92,22 @@ export const GlobalContextProvider: React.FC<Props> = ({ children }) => {
 
 
     const logout = () => {
-        setData({id:'', email: '', password: '', role: '', token: '' });
+        
+        setData({id:'',rol:'',name:'', email: '', password: '', token: '' });
         localStorage.removeItem('user');
+
     };
 
-    const modify = async (email: string, password: string) => {
+
+    // password , user._id
+    const modify = async (password: string, id: string) => {
         setLoading(true);
         try {
-            const response = await fetch(API_URL + 'modifica', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ email, password }),
+            const response = await axios.put(API_URL , {
+                _id: id,
+                password: password,
             });
-            const data = await response.json();
+            const data = await response.data;
             if (data.error) {
                 setError(data.error);
                 setLoading(false);
@@ -168,11 +116,14 @@ export const GlobalContextProvider: React.FC<Props> = ({ children }) => {
                 setLoading(false);
                 localStorage.setItem('user', JSON.stringify(response.data))
             }
-        } catch (error) {
+        } catch (error: any) {
             setError(error.message.toString());
             setLoading(false);
         }
     };
+
+
+
 
     return (
         <GlobalContext.Provider

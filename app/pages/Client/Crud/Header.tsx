@@ -1,9 +1,6 @@
 'use client'
 // @ts-nocheck
 import {FaSignInAlt, FaSignOutAlt, FaUser} from 'react-icons/fa'
-// import { useSelector, useDispatch } from 'react-redux'
-// import { logout, reset } from '../../../features/Auth/authSlice'
-// import { AppDispatch, RootState } from '../../../features/store'
 import {useGlobalContext} from '../../../features/Context/UserStore';
 import Link from 'next/link';
 import {useRouter} from 'next/navigation';

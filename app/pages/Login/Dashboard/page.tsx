@@ -1,4 +1,3 @@
-// @ts-nocheck
 "use client"
 import {useEffect} from 'react'
 import {useRouter} from 'next/navigation';
@@ -8,13 +7,14 @@ import Spinner from '../../Client/Crud/Spinner'
 import {Card, Container} from 'react-bootstrap'
 import LinkParola from '../Elemente/page'
 import {useGlobalContext} from '../../../features/Context/UserStore';
-import {useGlobalContextGoal} from '../../../features/Context/culturaStore';
+import {useGlobalContextCrop} from '../../../features/Context/culturaStore';
+import {UserInfos} from './userInfos'
 
 function Dashboard() {
   const navigate = useRouter()
 
-  const { data, setData, error, setError, loading, setLoading, register, login, logout } = useGlobalContext()
-  const { goals, isLoading, isError, message, getGoals , getAllGoals } = useGlobalContextGoal()
+  const { data } = useGlobalContext()
+  const { crops, isLoading, isError, message, getAllCrops } = useGlobalContextCrop()
 
   const { user } = data
 
@@ -30,7 +30,7 @@ function Dashboard() {
     }
     if (data.rol == "agent"){
 
-      getAllGoals()
+      getAllCrops()
 
     return () => {
     } }
@@ -38,11 +38,13 @@ function Dashboard() {
 
   if (isLoading) {
     return <Spinner />
-  }
 
+
+  }
   if (data.rol == "agent"){
   return (
     <>
+    <UserInfos/>
     <Container><Card>
       <section className='heading'>
         <h1>Salut {data && data.name}</h1>
@@ -54,10 +56,10 @@ function Dashboard() {
 
       
       <section className='content'>
-        {goals.length > 0 ? (
-          <div className='goals'>
-            {goals.map((goal) => (
-              <RotatieItem key={goal._id} goal={goal} />
+        {crops.length > 0 ? (
+          <div className='crops'>
+            {crops.map((crop) => (
+              <RotatieItem key={crop._id} crop={crop} />
             ))}
           </div>
         ) : (
@@ -69,21 +71,12 @@ function Dashboard() {
       </Container>
     </>
     
-  )} else {
+  ) 
+} else {
+  return (
+    
+    <UserInfos/>
+    
+  )}}
 
-    return(
-      <>
-      <Container><Card>
-        <section className='heading'>
-          <h1>Salut {data && data.name}</h1>
-          <LinkParola/>
-          </section>
-        </Card>
-        
-        </Container>
-      </>
-    )
-  }
-}
-
-export default Dashboard
+ export default Dashboard

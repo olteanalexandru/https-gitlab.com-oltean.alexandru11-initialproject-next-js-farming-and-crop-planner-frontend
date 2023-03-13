@@ -21,20 +21,20 @@ export default function Home() {
 	<div className="row " >
 		<div className="col-md-4 text-center ">
 			<h3 className="text-center">
-        <a href="/goals">
+        <a href="/crops">
 			Lorem ipsum dolor sit . </a>
 			<Image src="/images/paris.jpg" alt="Paris" width={500} height={500} className=" rounded img-fluid img"/>
 			</h3>
 		</div>
 		<div className="col-md-4 text-center border-colorat " style={{paddingBottom: '9rem'}}> <h3>
-      <a href="/goals"> 
+      <a href="/crops"> 
 				Lorem ipsum dolor  amet. </a> </h3>
 				<Image src="/images/newyork.jpg" alt="New York" width={500} height={500} className=" rounded img-fluid img"/>
 				
 		</div>
 		<div className="col-md-4 text-center ">
 			<h3>
-        <a href="/goals">
+        <a href="/crops">
         Lorem  dolor sit amet. </a>
 			</h3>
 			<Image src="/images/sanfran.jpg" alt="San Francisco" width={500} height={500} className=" rounded img-fluid img"/>

@@ -29,7 +29,7 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts"
-, "app/pages/Client/Crud/SinglePag/[...Goal_Id].js", "app/pages/Login/Register/page.tsx"  ],
+, "app/pages/Client/Crud/SinglePag/[...Crop_Id].js", "app/pages/Login/Register/page.tsx"  ],
   "exclude": [
     "node_modules"
   ]

@@ -1,20 +1,20 @@
 // @ts-nocheck
 "use client"
-import { useGlobalContextGoal } from '../../../features/Context/culturaStore';
+import { useGlobalContextCrop } from '../../../features/Context/culturaStore';
 
-function RotatieItem({ goal }) {
+function RotatieItem({ crop }) {
 
-  const { deleteGoal } = useGlobalContextGoal()
+  const { deleteCrop } = useGlobalContextCrop()
 
   return (
-    <div className='goal'>
+    <div className='crop'>
       
-      <h2>{goal.titlu}</h2>
-      <h2>{goal.text}</h2>
-      <img src={ "data:image/jpeg;"+goal.image.substring(2, goal.image.length - 2)} alt={goal.titlu} style={{width: 300, height: 400}} />
-      <p>{goal.descriere}</p>
-      <div>{new Date(goal.createdAt).toLocaleString('en-US')}</div>
-      <button onClick={ () => deleteGoal(goal._id) } className='close'>
+      <h2>{crop.titlu}</h2>
+      <h2>{crop.text}</h2>
+      <img src={ "data:image/jpeg;"+crop.image.substring(2, crop.image.length - 2)} alt={crop.titlu} style={{width: 300, height: 400}} />
+      <p>{crop.descriere}</p>
+      <div>{new Date(crop.createdAt).toLocaleString('en-US')}</div>
+      <button onClick={ () => deleteCrop(crop._id) } className='close'>
         X
       </button>
     </div>

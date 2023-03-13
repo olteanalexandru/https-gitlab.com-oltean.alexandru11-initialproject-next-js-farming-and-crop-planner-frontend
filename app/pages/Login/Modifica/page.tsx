@@ -1,17 +1,20 @@
 // @ts-nocheck
 "use client"
 import {useEffect, useState} from 'react'
-import {useDispatch, useSelector} from 'react-redux'
+import {useGlobalContext} from '../../../features/Context/UserStore'
 import {useRouter} from 'next/navigation';
 import {toast} from 'react-toastify'
 import {FaUser} from 'react-icons/fa'
-// import { modifica, reset, logout } from '../../../features/Auth/authSlice'
 import Spinner from '../../Client/Crud/Spinner'
-
 
 import "bootstrap/dist/css/bootstrap.min.css";
 
 function Modifica() {
+  const navigate = useRouter()
+
+  if (localStorage.getItem('user') === null) {
+    navigate.push('/pages/Login/Login')
+  }
   const [formData, setFormData] = useState({
     password: '',
     password2: '',
@@ -19,26 +22,23 @@ function Modifica() {
 
   const { password, password2 } = formData
 
-  const navigate = useRouter()
-  const dispatch = useDispatch()
+  
 
-  const { user, isLoading, isError, isSuccess, message } = useSelector(
-    (state) => state.auth
-  )
+  const { isLoading, isError, isSuccess, message, modify, data, logout } = useGlobalContext()
 
   useEffect(() => {
+
+
     if (isError) {
       toast.error(message)
     }
 
      if (isSuccess) {
-       navigate('/')
-       dispatch(logout())
-     }
+       navigate('/youtube')
+        logout()
 
-    
-    dispatch(reset())
-  }, [user, isError, isSuccess, message, navigate, dispatch])
+     }
+  }, [data, isError, isSuccess, message, navigate, logout])
 
   const onChange = (e) => {
     setFormData((prevState) => ({
@@ -47,17 +47,18 @@ function Modifica() {
     }))
   }
 
+  
   const onSubmit = (e) => {
     e.preventDefault()
-
+console.log(message)
     if (password !== password2) {
       toast.error('Parolele nu se potrivesc')
     } else {
       const userData = {
         password,
       }
-
-      dispatch(modifica(userData))
+      console.log(userData, data._id)
+      modify(userData.password, data._id)
     }
   }
 

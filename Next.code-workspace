@@ -1,0 +1,14 @@
+{
+	"folders": [
+		{
+			"path": "."
+		},
+		{
+			"path": "..\\..\\EXERCITII"
+		}
+	],
+	"settings": {
+		"typescript.tsdk": "node_modules\\typescript\\lib",
+		"typescript.enablePromptUseWorkspaceTsdk": true
+	}
+}

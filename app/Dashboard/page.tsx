@@ -6,7 +6,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import RotatieForm from '../../Client/Crud/RotatieForm'
 import RotatieItem from '../../Client/Crud/RotatieItem'
 import Spinner from '../../Client/Crud/Spinner'
-import { getGoals, reset } from '../../../features/goals/goalSlice'
+import { getCrops, reset } from '../../../features/crops/cropSlice'
 import { Container , Card} from 'react-bootstrap'
 import LinkParola from '../Elemente/page'
 import { useGlobalContext } from '../../../features/Context/UserStore';
@@ -15,8 +15,8 @@ function Dashboard() {
   const navigate = useRouter()
   const dispatch = useDispatch()
 
-  const { goals, isLoading, isError, message } = useSelector(
-    (state) => state.goals
+  const { crops, isLoading, isError, message } = useSelector(
+    (state) => state.crops
   )
 
   const { data, setData, error, setError, loading, setLoading, register, login, logout } = useGlobalContext()
@@ -34,7 +34,7 @@ function Dashboard() {
     }
     if (user.rol == "agent"){
 
-    dispatch(getGoals())
+    dispatch(getCrops())
 
     return () => {
       dispatch(reset())
@@ -59,10 +59,10 @@ function Dashboard() {
 
       
       <section className='content'>
-        {goals.length > 0 ? (
-          <div className='goals'>
-            {goals.map((goal) => (
-              <RotatieItem key={goal._id} goal={goal} />
+        {crops.length > 0 ? (
+          <div className='crops'>
+            {crops.map((crop) => (
+              <RotatieItem key={crop._id} crop={crop} />
             ))}
           </div>
         ) : (

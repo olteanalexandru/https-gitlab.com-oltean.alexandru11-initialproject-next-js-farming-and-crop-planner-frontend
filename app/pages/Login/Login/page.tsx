@@ -2,13 +2,9 @@
 "use client"
 import {useEffect, useState} from 'react'
 import {FaSignInAlt} from 'react-icons/fa'
-// import { useSelector, useDispatch } from 'react-redux'
 import {useRouter} from 'next/navigation';
 import {toast} from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
-
-// import { RootState } from '../../../features/store'
-// import { login, reset } from '../../../features/Auth/authSlice'
 import {useGlobalContext} from '../../../features/Context/UserStore'
 import Spinner from '../../Client/Crud/Spinner'
 
@@ -60,65 +56,6 @@ function Login() {
 
 
 
-
-
-
-
-
- 
-
-
-
-
-
-
-
-
-
-  // const onSubmit = (e) => {
-  //   e.preventDefault()
-
-  //   const userData = {
-  //     email,
-  //     password,
-  //   }
-
-  //   dispatch(login(userData))
-  // }
-
-  // const [formData, setFormData] = useState({
-  //   email: '',
-  //   password: '',
-  // })
-
-  // const { email, password } = formData
-
-  // const navigate = useRouter()
-  // const dispatch = useDispatch()
-
-  // const { user, isLoading, isError, isSuccess, message } = useSelector(
-  //   (state : RootState) => state.auth
-  // )
-
-
-  // const onChange = (e) => {
-  //   setFormData((prevState) => ({
-  //     ...prevState,
-  //     [e.target.name]: e.target.value,
-  //   }))
-  // }
-
-  // const onSubmit = (e) => {
-  //   e.preventDefault()
-
-  //   const userData = {
-  //     email,
-  //     password,
-  //   }
-
-  //   dispatch(login(userData))
-  // }
-
   if (loading) {
     return <Spinner />
   }
@@ -129,7 +66,7 @@ function Login() {
         <h1>
           <FaSignInAlt /> Login
         </h1>
-        <p>Login and start setting goals</p>
+        <p>Login and start setting crops</p>
       </section>
 
       <section className='form'>

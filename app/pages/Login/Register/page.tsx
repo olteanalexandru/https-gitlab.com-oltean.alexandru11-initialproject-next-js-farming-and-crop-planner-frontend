@@ -1,11 +1,9 @@
 // @ts-nocheck
 "use client"
 import {useEffect, useState} from 'react'
-// import { useSelector, useDispatch } from 'react-redux'
 import {useRouter} from 'next/navigation';
 import {toast} from 'react-toastify'
 import {FaUser} from 'react-icons/fa'
-// import { register, reset } from '../../../features/Auth/authSlice'
 import Spinner from '../../Client/Crud/Spinner'
 import {Form} from 'react-bootstrap';
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -25,7 +23,7 @@ function Register() {
 
   const { rol, name, email, password, password2 } = formData
 
-  const { data, setData, error, setError, loading, setLoading, register, login } = useGlobalContext()
+  const { data, setData, error, setError, loading,  register } = useGlobalContext()
 
   const navigate = useRouter()
 
