@@ -7,10 +7,8 @@ export default function Footer() {
 <footer id="footer">
         <div className="row">
         <div className="col-lg-3 col-md-6 footer-contact">
-            <h3>Imobiliare</h3>
-            <p> By default bootstrap  pref<br />
-              5 does not support hover. But most developers<br />
-              Romania <br /><br />
+            <h3>Platforma agricola</h3>
+            <p> Care are de aface cu agricultura<br />              
               <strong>Phone:</strong> 0755494691<br />
               <strong>Email:</strong> Oltean.alexandru11@gmail.com<br /> </p>
           </div>
@@ -19,7 +17,7 @@ export default function Footer() {
             <h4>Pagini folositoare</h4>
             <ul>
               <li><i className="bx bx-chevron-right"></i> <Link href="/#">Home</Link> </li>
-              <li><i className="bx bx-chevron-right"></i> <Link href="pages/desprenoi">About us</Link> </li>
+              <li><i className="bx bx-chevron-right"></i> <Link href="pages/desprenoi">Despre noi</Link> </li>
               <li><i className="bx bx-chevron-right"></i> <Link href="pages/noutati">Noutati</Link> </li>
               <li><i className="bx bx-chevron-right"></i> <Link href="/pages/contact"> Contact</Link> </li>
             </ul>
@@ -27,7 +25,7 @@ export default function Footer() {
           <div className="col-lg-3 col-md-6 footer-links">
             <h4>Servicile noaste</h4>
             <ul>
-              <li><i className="bx bx-chevron-right"></i> <Link href="pages/desprenoi">Despre Noi</Link> </li>
+              <li><i className="bx bx-chevron-right"></i> <Link href="pages/Recomandari">Recomandari</Link> </li>
               <li><i className="bx bx-chevron-right"></i> <Link href="pages/Rotatie">Rotatie</Link> </li>
             </ul>
           </div>
@@ -39,7 +37,7 @@ export default function Footer() {
         </div>
     
     <div className="container d-md-flex py-4 me-md-auto text-center text-md-start copyright">
-          &copy; Copyright <strong><span>Oltean Alexandru Florin</span></strong>. All Rights Reserved   
+       <p>   &copy; Copyright <strong><span> Oltean Alexandru Florin</span></strong>. All Rights Reserved   </p>
     </div>
   </footer>
   </div>

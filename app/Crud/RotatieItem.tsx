@@ -1,8 +1,21 @@
-// @ts-nocheck
 "use client"
+
+type cropType = {
+  _id: string
+  titlu: string
+  descriere: string
+  image: string
+  text: string
+  createdAt: string
+}
+
+
+
 import { useGlobalContextCrop } from '../Context/culturaStore';
 
-function RotatieItem({ crop }) {
+
+
+function RotatieItem({ crop }: { crop: cropType }) {
 
   const { deleteCrop } = useGlobalContextCrop()
 

@@ -6,17 +6,16 @@ import RotatieItem from '../../../Crud/RotatieItem'
 import Spinner from '../../../Crud/Spinner'
 import {Card, Container} from 'react-bootstrap'
 import LinkParola from '../Elemente/page'
+import LinkAdaugaPostare from '../Elemente/LinkAdaugaPostare';
 import {useGlobalContext} from '../../../Context/UserStore';
 import {useGlobalContextCrop} from '../../../Context/culturaStore';
 import {UserInfos} from './userInfos'
 
 function Dashboard() {
   const navigate = useRouter()
-
   const { data } = useGlobalContext()
   const { crops, isLoading, isError, message, getAllCrops } = useGlobalContextCrop()
-
-  const { user } = data
+  const { token } = data
 
   
 
@@ -34,7 +33,7 @@ function Dashboard() {
 
     return () => {
     } }
-  }, [user, navigate, isError, message, data])
+  }, [token, navigate, isError, message, data])
 
   if (isLoading) {
     return <Spinner />
@@ -48,10 +47,10 @@ function Dashboard() {
     <Container><Card>
       <section className='heading'>
         <h1>Salut {data && data.name}</h1>
+        <LinkAdaugaPostare/>
         <LinkParola/>
         <p>Updateaza continutul paginii:</p>
       </section>
-
       <RotatieForm />
 
       
@@ -67,7 +66,6 @@ function Dashboard() {
         )}
       </section>
       </Card>
-
       </Container>
     </>
     

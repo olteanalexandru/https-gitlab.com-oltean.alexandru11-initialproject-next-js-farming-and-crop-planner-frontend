@@ -24,6 +24,7 @@ type DataType = {
   token: string
 }
 
+
 interface ContextProps {
   crops: any;
   setCrops: Dispatch<SetStateAction<any>>;
@@ -61,11 +62,7 @@ const ContextProps  = createContext<ContextProps>({
     selectare: () => Promise.resolve(),
     SinglePage: () => Promise.resolve(),
     getAllCrops: () => Promise.resolve(),
-  
-
 }
-
-
 )
 
 interface Props {
@@ -77,7 +74,7 @@ interface Props {
  export const GlobalContextProvider: React.FC<Props> = ({ children }) => {
 
    
-    const [crops, setCrops] = useState([]);
+    const [crops, setCrops] = useState<DataType>({title: '', description: '', image: '', text: '', category: '', startDate: '', endDate: '', status: '', progress: 0, priority: '', user: '', selectare: false, token: '' })
     const [token, setToken] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
     const [isError, setIsError] = useState(false);

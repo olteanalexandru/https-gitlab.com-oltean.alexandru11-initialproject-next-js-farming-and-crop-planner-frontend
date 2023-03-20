@@ -12,7 +12,7 @@ return (
   
 </div>
 
-<Link href={`/pages/Client/Crud/SinglePag?crop=${crop._id}`}><button type="button" className="btn btn-primary" > Vezi mai mult </button> </Link>
+<Link href={`/Crud/SinglePag?crop=${crop._id}`}><button type="button" className="btn btn-primary" > Vezi mai mult </button> </Link>
 </>
 )
 } export default Continut

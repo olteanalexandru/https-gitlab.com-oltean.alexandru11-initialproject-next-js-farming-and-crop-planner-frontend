@@ -5,8 +5,8 @@ export default function Desprenoi() {
 <div>
 <div id="background" className="jumbotron text-center " style={{borderBottom: '1px darkgray dotted'}}>
   
-  <h1>Agetie imobiliara</h1>
-  <h2>Care are deaface cu imobile</h2>
+  <h1>Platforma agricola</h1>
+  <h2>Care are deaface cu agricultura</h2>
 </div>
 <div className="container text-center border-colorat " style={{marginBottom:' 8rem'}}>
   <h2>SERVICES</h2>
@@ -63,6 +63,10 @@ export default function Desprenoi() {
     </div>
   </div>
 </div>
+<p>
+Genereaza o pagina html cu bootstrap ( fara header si footer) in care descri ce activitati sustine platforma noasta agricola ( exemplu: Rotatii automate culturi , Recomandari , Comunica cu Api-uri cum ar fi vremea pentru a da  sfaturi , Management al culturilor )
+
+</p>
 </div>
 
 )

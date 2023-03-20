@@ -23,7 +23,7 @@ export default function Rotatie() {
     }
     getAllCrops()
     
-  }, [  isError, message])
+  }, [isError, message])
 
   if (isLoading) {
     return <Spinner />

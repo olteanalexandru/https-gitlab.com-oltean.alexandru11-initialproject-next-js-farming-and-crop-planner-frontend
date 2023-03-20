@@ -16,20 +16,24 @@ type DataType = {
 }
 
 interface ContextProps {
-    data: DataType;
+    data: any;
     setData: Dispatch<SetStateAction<DataType>>;
     error: string;
     setError: Dispatch<SetStateAction<string>>;
     loading: boolean;
     setLoading: Dispatch<SetStateAction<boolean>>;
-    post: (title: string, brief: string, description: string, image: string) => Promise<void>;
+    createPost: (title: string, brief: string, description: string, image: string) => Promise<void>;
     modify: (id: string , title: string, brief: string, description: string, image: string) => Promise<void>;
     deletePost: (id: string) => Promise<void>;
+    getPost: (id: string) => Promise<void>;
+    getAllPosts: () => Promise<void>;
 }
 
 interface Props {
     children: React.ReactNode;
     }
+
+
 
 const GlobalContext = createContext<ContextProps>({} as ContextProps);
 
@@ -38,15 +42,23 @@ export const GlobalContextProvider: React.FC<Props> = ({ children }) => {
     const [error, setError] = useState<string>('');
     const [loading, setLoading] = useState<boolean>(false);
 
-    const post = async (title: string, brief: string, description: string, image: string) => {
+    
+
+
+    const createPost = async ({ title, brief, description, image }: any, token: string) => {
         setLoading(true);
         try {
-            const response = await axios.post(API_URL_post , {
+            const response = await axios.post(API_URL, {
                 title,
                 brief,
                 description,
                 image,
-            });
+                
+            }, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                    }
+                    });
             const data = await response.data;
             if (data.error) {
                 setError(data.error);
@@ -61,6 +73,7 @@ export const GlobalContextProvider: React.FC<Props> = ({ children }) => {
             setLoading(false);
         }
     }
+
 
     const modify = async (id: string , title: string, brief: string, description: string, image: string) => {
         setLoading(true);
@@ -105,9 +118,50 @@ export const GlobalContextProvider: React.FC<Props> = ({ children }) => {
         }
     }
 
+    const getPost = async (id: string) => {
+        setLoading(true);
+        try {
+            const response = await axios.get(API_URL_post + id);
+            const data = await response.data;
+            if (data.error) {
+                setError(data.error);
+                setLoading(false);
+            } else {
+                setData(data);
+                setLoading(false);
+                localStorage.setItem('post', JSON.stringify(response.data))
+            }
+        } catch (error:any ) {
+            setError(error.response.data.message);
+            setLoading(false);
+        }
+    }
+
+    const getAllPosts = async () => {
+        setLoading(true);
+        try {
+            const response = await axios.get(API_URL);
+            const data = await response.data;
+            if (data.error) {
+                setError(data.error);
+                setLoading(false);
+            } else {
+                setData(data);
+                setLoading(false);
+                localStorage.setItem('post', JSON.stringify(response.data))
+            }
+        } catch (error:any ) {
+            setError(error.response.data.message);
+            setLoading(false);
+        }
+    }
+
     return (
-        <GlobalContext.Provider value={{ data, setData, error, setError, loading, setLoading, post, modify, deletePost }}>
+        <GlobalContext.Provider value={{ data, setData, error, setError, loading, setLoading, getPost, getAllPosts , createPost, modify, deletePost }}>
             {children}
         </GlobalContext.Provider>
     );
 };
+
+export const useGlobalContextPost = () => useContext(GlobalContext);
+
