@@ -12,10 +12,9 @@ export default function Home() {
   return (
 	
     <div className={containerClasses}>
-		<h1 className='text-red-900'>Hello Tailwind CSS</h1>
-		<h1 className="text-3xl font-bold underline">
-      Hello world!
-</h1>
+		<h1 className='text-red-900 underline font-bold'>Hello Tailwind CSS</h1>
+		<br />
+		
       <h1 className={titleClasses}>Bine ați venit pe pagina principală a platformei agricole!</h1>
       <p className={descriptionClasses}>
 	  Prin utilizarea acestei platforme, veți putea planifica cu ușurință o rotație eficientă a culturilor,

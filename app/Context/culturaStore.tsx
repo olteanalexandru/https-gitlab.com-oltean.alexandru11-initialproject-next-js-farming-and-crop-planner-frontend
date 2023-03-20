@@ -1,8 +1,7 @@
 'use client';
 
 import { createContext, useContext, Dispatch , SetStateAction , useState } from 'react';
-
-import axios from 'axios'
+import axios from 'axios';
 
 const API_URL = 'http://localhost:5000/api/crops/'
 const API_URL_crops = 'http://localhost:5000/api/crops/Crops/'

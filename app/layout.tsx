@@ -4,6 +4,8 @@ import Footer from './footer'
 import 'bootstrap/dist/css/bootstrap.css'
 import {GlobalContextProvider} from './Context/UserStore'
 import {GlobalContextProvider as CulturaStore} from './Context/culturaStore'
+//import '../styles/globals.css';
+
 
 
 export default function RootLayout({
@@ -16,16 +18,17 @@ export default function RootLayout({
       <head />
       <body>
           <>
-          {/* creeate a tailwind div that centers its text, gives margin to page, creates a container for the page */}
+           <div className="container"> 
 
-          <div className="flex flex-col items-center justify-center h-screen">
+    
+
 
           <CulturaStore>
          <GlobalContextProvider >
          <Header /> {children} <Footer />
          </GlobalContextProvider>
          </CulturaStore>
-         </div>
+          </div> 
          </>
       </body> 
     </html>
