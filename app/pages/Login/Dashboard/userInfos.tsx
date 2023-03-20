@@ -1,6 +1,6 @@
 import {Card, Container} from 'react-bootstrap'
 import LinkParola from '../Elemente/page'
-import {useGlobalContext} from '../../../features/Context/UserStore';
+import {useGlobalContext} from '../../../Context/UserStore';
 
 
  export const UserInfos = () => {

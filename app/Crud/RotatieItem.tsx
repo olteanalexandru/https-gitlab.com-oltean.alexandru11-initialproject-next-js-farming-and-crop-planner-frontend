@@ -1,6 +1,6 @@
 // @ts-nocheck
 "use client"
-import { useGlobalContextCrop } from '../../../features/Context/culturaStore';
+import { useGlobalContextCrop } from '../Context/culturaStore';
 
 function RotatieItem({ crop }) {
 

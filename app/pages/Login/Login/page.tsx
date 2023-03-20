@@ -4,8 +4,8 @@ import {FaSignInAlt} from 'react-icons/fa'
 import {useRouter} from 'next/navigation';
 import {toast} from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
-import {useGlobalContext} from '../../../features/Context/UserStore'
-import Spinner from '../../Client/Crud/Spinner'
+import {useGlobalContext} from '../../../Context/UserStore'
+import Spinner from '../../../Crud/Spinner'
 
 function Login() {
 

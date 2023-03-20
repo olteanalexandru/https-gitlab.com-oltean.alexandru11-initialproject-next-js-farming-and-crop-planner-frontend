@@ -1,63 +1,43 @@
 import Image from 'next/image'
+import Link from 'next/link'
+import classNames from 'classnames'
 
 export default function Home() {
-	return (
-		<>
- <div className="container border-colorat">
-	<div className="row">
-		<div className="col" style={{borderBottom:' 1px darkgray dotted'}}>
-			<h3 className="text-center text-primary">
-				Lorem ipsum dolor sit amet.
-			</h3>
-			<p className="text-muted text-center mb-5">
-				Lorem ipsum dolor sit amet, <strong>consectetur adipiscing elit</strong>. Aliquam eget sapien sapien. <br />
-        Curabitur in metus urna. In hac habitasse platea dictumst. Phasellus eu sem sapien, sed vestibulum velit.<br />
-         Nam purus nibh, lacinia non faucibus et, pharetra in dolor. Sed iaculis posuere diam ut cursus. <br />
-         <em>Morbi commodo sodales nisi id sodales. Proin consectetur, nisi id commodo imperdiet, metus nunc consequat<br />
-           lectus, id bibendum diam velit et dui.</em> Proin massa magna, vulputate nec bibendum nec, posuere nec lacus.<br />
-            <small>Aliquam mi erat, aliquam vel luctus eu, pharetra quis elit. Nulla euismod ultrices massa, et feugiat ipsum consequat eu.</small>
-			</p>
-		</div>
-	<div className="row " >
-		<div className="col-md-4 text-center ">
-			<h3 className="text-center">
-        <a href="/crops">
-			Lorem ipsum dolor sit . </a>
-			<Image src="/images/paris.jpg" alt="Paris" width={500} height={500} className=" rounded img-fluid img"/>
-			</h3>
-		</div>
-		<div className="col-md-4 text-center border-colorat " style={{paddingBottom: '9rem'}}> <h3>
-      <a href="/crops"> 
-				Lorem ipsum dolor  amet. </a> </h3>
-				<Image src="/images/newyork.jpg" alt="New York" width={500} height={500} className=" rounded img-fluid img"/>
-				
-		</div>
-		<div className="col-md-4 text-center ">
-			<h3>
-        <a href="/crops">
-        Lorem  dolor sit amet. </a>
-			</h3>
-			<Image src="/images/sanfran.jpg" alt="San Francisco" width={500} height={500} className=" rounded img-fluid img"/>
-		</div>
-	</div>
-</div>
-<div className="row mb-5 text-center">
-  <div className="col" >
-<div className="jumbotron" >
-  <h2>
-   W Hello, world!
-  </h2>
-  <p>
-    Morbi commodo sodales nisi id sodales. Proin consectetur, nisi id commodo imperdiet, metus nunc consequat<br />
-           lectus, id bibendum diam velit et dui.<em /> Proin massa magna, vulputate nec bibendum nec, posuere nec lacus.<br />
-  </p>
-  <p>
-    <a className="btn btn-primary btn-large" href="/noutati">Learn more</a>
-  </p>
-</div>
-</div>
-</div>
-</div>
-</>
-)
+	
+		
+ const containerClasses = classNames('flex', 'flex-col', 'items-center', 'justify-center', 'h-screen');
+  const titleClasses = classNames('text-4xl', 'font-bold', 'mb-4');
+  const descriptionClasses = classNames('text-lg', 'text-center');
+
+  return (
+	
+    <div className={containerClasses}>
+		<h1 className='text-red-900'>Hello Tailwind CSS</h1>
+		<h1 className="text-3xl font-bold underline">
+      Hello world!
+</h1>
+      <h1 className={titleClasses}>Bine ați venit pe pagina principală a platformei agricole!</h1>
+      <p className={descriptionClasses}>
+	  Prin utilizarea acestei platforme, veți putea planifica cu ușurință o rotație eficientă a culturilor,
+	care va ajuta la menținerea solului sănătos și la obținerea unor randamente mai bune. Pe lângă asta,
+	veți putea primi recomandări personalizate pentru fiecare cultură în parte, în funcție de condițiile
+	 locale, de istoricul solului și de preferințele dvs.
+
+	Pentru a folosi această platformă, va trebui să vă creați un cont și să furnizați informații despre terenul 
+	dvs. agricol, inclusiv tipul de sol, zona climatică, culturile anterioare și alte detalii relevante. Apoi,
+	 platforma va utiliza API-uri pentru a obține informații actualizate despre vreme, sol și alte factori care
+ 	 pot influența producția.
+
+	Pe baza acestor informații, platforma va genera o planificare a rotației culturilor personalizată, care va
+ 	ține cont de cerințele fiecărei culturi, de tipul de sol și de alți factori relevanți. De asemenea, veți
+  	primi și recomandări pentru pregătirea solului, pentru nutriția plantelor și pentru combaterea bolilor
+   	și a dăunătorilor.
+
+	Platforma noastră utilizează cele mai recente tehnologii și date actualizate pentru a vă oferi cele mai
+ 	bune recomandări și pentru a vă ajuta să obțineți cele mai bune rezultate din ferma dvs. Dacă aveți întrebări sau probleme, nu ezitați să ne contactați prin intermediul platformei.
+      </p>
+    </div>
+  );
 }
+
+

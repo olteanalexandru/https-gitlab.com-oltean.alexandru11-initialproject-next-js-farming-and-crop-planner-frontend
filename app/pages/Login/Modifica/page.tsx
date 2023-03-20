@@ -1,11 +1,11 @@
 // @ts-nocheck
 "use client"
 import {useEffect, useState} from 'react'
-import {useGlobalContext} from '../../../features/Context/UserStore'
+import {useGlobalContext} from '../../../Context/UserStore'
 import {useRouter} from 'next/navigation';
 import {toast} from 'react-toastify'
 import {FaUser} from 'react-icons/fa'
-import Spinner from '../../Client/Crud/Spinner'
+import Spinner from '../../../Crud/Spinner'
 
 import "bootstrap/dist/css/bootstrap.min.css";
 

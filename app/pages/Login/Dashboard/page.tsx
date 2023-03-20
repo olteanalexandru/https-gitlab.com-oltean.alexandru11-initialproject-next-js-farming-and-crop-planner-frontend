@@ -1,13 +1,13 @@
 "use client"
 import {useEffect} from 'react'
 import {useRouter} from 'next/navigation';
-import RotatieForm from '../../Client/Crud/RotatieForm'
-import RotatieItem from '../../Client/Crud/RotatieItem'
-import Spinner from '../../Client/Crud/Spinner'
+import RotatieForm from '../../../Crud/RotatieForm'
+import RotatieItem from '../../../Crud/RotatieItem'
+import Spinner from '../../../Crud/Spinner'
 import {Card, Container} from 'react-bootstrap'
 import LinkParola from '../Elemente/page'
-import {useGlobalContext} from '../../../features/Context/UserStore';
-import {useGlobalContextCrop} from '../../../features/Context/culturaStore';
+import {useGlobalContext} from '../../../Context/UserStore';
+import {useGlobalContextCrop} from '../../../Context/culturaStore';
 import {UserInfos} from './userInfos'
 
 function Dashboard() {

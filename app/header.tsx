@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import HeaderLog from './pages/Client/Crud/Header'
+import HeaderLog from './Crud/Header'
 
 
 export default function Header() {

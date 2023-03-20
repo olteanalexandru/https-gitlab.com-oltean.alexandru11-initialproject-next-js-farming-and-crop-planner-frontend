@@ -2,12 +2,12 @@
 "use client"
 import { useEffect } from 'react'
 import { useRouter } from 'next/navigation';
-import Spinner from '../../Client/Crud/Spinner'
+import Spinner from '../../../Crud/Spinner'
 import { Container , Card} from 'react-bootstrap'
 import LinkParola from '../Elemente/page'
-import { useGlobalContext } from '../../../features/Context/UserStore';
-import { useGlobalContextCrop } from '../../../features/Context/culturaStore';
-import Continut from '../../Client/Crud/GetAllInRotatie/page';
+import { useGlobalContext } from '../../../Context/UserStore';
+import { useGlobalContextCrop } from '../../../Context/culturaStore';
+import Continut from '../../../Crud/GetAllInRotatie/page';
 
 
 function RotatieDashboard() {

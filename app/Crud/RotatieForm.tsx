@@ -1,8 +1,8 @@
 "use client"
 import { useState } from 'react'
 import { FileBase64 } from 'react-file-base64';
-import { useGlobalContextCrop } from '../../../features/Context/culturaStore';
-import { useGlobalContext } from '../../../features/Context/UserStore';
+import { useGlobalContextCrop } from '../Context/culturaStore';
+import { useGlobalContext } from '../Context/UserStore';
 
 
 function RotatieForm() {

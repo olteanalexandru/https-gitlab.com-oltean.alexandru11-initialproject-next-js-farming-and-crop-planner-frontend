@@ -1,6 +1,6 @@
 'use client'
 import {FaSignInAlt, FaSignOutAlt, FaUser} from 'react-icons/fa'
-import {useGlobalContext} from '../../../features/Context/UserStore';
+import {useGlobalContext} from '../Context/UserStore';
 import Link from 'next/link';
 import {useRouter} from 'next/navigation';
 

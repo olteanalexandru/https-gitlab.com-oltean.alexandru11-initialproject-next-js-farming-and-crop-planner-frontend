@@ -4,8 +4,8 @@ import { useEffect, useState } from 'react'
 import { useSearchParams} from 'next/navigation'
 import { Form } from 'react-bootstrap';
 import { Container } from 'react-bootstrap';
-import { useGlobalContext } from '../../../../features/Context/UserStore';
-import { useGlobalContextCrop } from '../../../../features/Context/culturaStore';
+import { useGlobalContext } from '../../Context/UserStore';
+import { useGlobalContextCrop } from '../../Context/culturaStore';
 
 
 function SinglePag( ): JSX.Element{

@@ -1,10 +1,10 @@
 
 "use client"
 import {  useEffect } from 'react';
-import Spinner from '../Client/Crud/Spinner';
-import Continut from '../Client/Crud/GetAllInRotatie/page';
-import GridGenerator from '../../Extras/GridGen'
-import { useGlobalContextCrop } from '../../features/Context/culturaStore';
+import Spinner from '../../Crud/Spinner';
+import Continut from '../../Crud/GetAllInRotatie/page';
+import GridGenerator from '../../Componente/GridGen'
+import { useGlobalContextCrop } from '../../Context/culturaStore';
 
 export default function Rotatie() {
 
