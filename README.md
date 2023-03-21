@@ -4,25 +4,49 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 "This is the Initial MERN MVC Real Estate project but modified to use NEXT js 13 and Contex, this is still heavily in work
 
 
-Actors:
-Farmer: can create an account, see crops, get optimal crop rotation, get recommendations based on weather/humidity, change their email or password.
-Administrator: can do everything a farmer can do, add crops with crop information, delete users, see all of the rotations that have been made.
-Use cases:
-Create account: both the farmer and administrator can create an account. The system verifies the email and password, and only allows the user to change their email or password after successfully creating the account.
-Login: both the farmer and administrator can log in to the system with their email and password.
-View crops: both the farmer and administrator can view the list of crops that are currently in the system.
-Add crop: only the administrator can add new crops to the system, including the crop information.
-Get optimal crop rotation: the farmer can request an optimal crop rotation based on the crops they have selected to plant.
-Get recommendations: the farmer can request crop recommendations based on the weather and humidity in their area.
-Select crops for rotation: the farmer can select which crops they want to rotate.
-View rotation history: the administrator can view a history of all crop rotations that have been made in the system.
-Delete account: only the administrator can delete a user account from the system.
-Logic:
-Only a logged-in user can access the system features.
-After creating an account, the user must log in to the system to access the features.
-The system verifies the email and password when creating an account and logging in.
-The farmer can change their email or password only after successfully creating an account.
-Only the administrator can add new crops to the system.
-The farmer can select which crops they want to rotate.
-The administrator can view a history of all crop rotations that have been made in the system.
-Only the administrator can delete a user account from the system.
+Actor: Fermier
+Creare cont
+Fermierul poate crea un cont furnizând adresa lor de email și parola. Adresa de e-mail și parola vor fi verificate și trebuie să fie unice în sistem. Fermierul poate actualiza adresa de email sau parola după ce a creat contul cu succes.
+
+Autentificare
+Fermierul poate să se autentifice în sistem cu adresa lor de e-mail și parola.
+
+Vizualizare culturi
+Fermierul poate vizualiza culturile care sunt cultivate în prezent pe fermă. Lista culturilor va include informații despre starea de dezvoltare, cantitatea și calitatea recoltelor.
+
+Actualizare culturi
+Fermierul poate actualiza informațiile despre culturile pe care le cultivă, cum ar fi starea de dezvoltare, cantitatea și calitatea recoltelor.
+
+Rotație optimă de culturi
+Fermierul poate solicita informații despre rotația optimă de culturi bazată pe culturile pe care le-au selectat pentru rotație.
+
+Recomandări privind vremea/umiditatea
+Fermierul poate primi recomandări despre ce culturi să cultive pe baza datelor meteorologice/umiditate.
+
+Actor: Administrator
+Creare cont
+Administratorul poate crea un cont furnizând adresa lor de email și parola. Adresa de e-mail și parola vor fi verificate și trebuie să fie unice în sistem. Administratorul poate actualiza adresa de email sau parola după ce a creat contul cu succes.
+
+Autentificare
+Administratorul poate să se autentifice în sistem cu adresa lor de e-mail și parola.
+
+Vizualizare culturi
+Administratorul poate vizualiza culturile care sunt cultivate în prezent pe fermă. Lista culturilor va include informații despre starea de dezvoltare, cantitatea și calitatea recoltelor.
+
+Rotație optimă de culturi
+Administratorul poate solicita informații despre rotația optimă de culturi bazată pe culturile selectate de fermier.
+
+Recomandări privind vremea/umiditatea
+Administratorul poate primi recomandări despre ce culturi să cultive pe baza datelor meteorologice/umiditate.
+
+Adăugare culturi
+Administratorul poate adăuga noi culturi în sistem, împreună cu informațiile lor, cum ar fi numele, descrierea și condițiile de creștere.
+
+Ștergere utilizatori
+Administratorul poate șterge conturile utilizatorilor dacă este necesar.
+
+Postare Noutăți
+Administratorul poate adăuga, șterge sau actualiza postări în secțiunea Noutăți. Fermierul și utilizatorul non logat pot vizualiza noutățile postate de administrator.
+
+Logica
+Crearea unui cont: atât fermierul, cât și administratorul pot crea un cont. Sistemul verifică adresa de e-mail și parola și permite utilizatorului să-și schimbe adresa de e-mail sau parola numai după ce a creat contul cu succes.
