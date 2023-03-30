@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from 'react'
-import { FileBase64 } from 'react-file-base64';
+import FileBase from 'react-file-base64';
 import { useGlobalContextPost } from '../Context/postStore';
 import { useGlobalContext } from '../Context/UserStore';
 
@@ -16,7 +16,7 @@ function PostForm() {
 
     const onSubmit = (e : any) => {
         e.preventDefault()
-        if (!title || !text || !description || !image) {
+        if (!title || !text || !description ) {
             alert('Ceva lipseste')
             return
         }
@@ -57,7 +57,7 @@ function PostForm() {
                         onChange={(e) => setDescription(e.target.value) }
                     />
                     <label htmlFor='image'>Imagine:</label>
-                    <FileBase64
+                    <FileBase
                         multiple={ false }
                         onDone={ ({ base64 }) => setImage(base64) }
                     />

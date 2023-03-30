@@ -1,57 +1,48 @@
+"use client"
 import React from 'react';
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/navigation';
 import { useGlobalContextPost } from '../../../Context/postStore';
 import { useEffect } from 'react';
-import { Spinner } from '../../../components/Spinner';
-import { UserInfos } from '../../../components/UserInfos';
-import { Container, Card } from '../../../components/Container';
-import { LinkParola } from '../../../components/LinkParola'; 
+import  Spinner  from '../../../Crud/Spinner';
+import { UserInfos } from '../../Login/Dashboard/userInfos';
+import { Container, Card } from 'react-bootstrap';
+import PostForm from '../../../Crud/PostForm';
+import Continut from '../../../Crud/GetAllPosts/page';
+
 
 
 function Postari() {
+    const { data, loading, getAllPosts } = useGlobalContextPost();
+   
     const router = useRouter();
-    const { posts, isLoading, isError, message, getAllPosts } = useGlobalContextPost();
-    
-    const { token } = navigation;
-    
+
+
     useEffect(() => {
-        if (isError) {
-        console.log(message);
-        }
-    
-        if (!navigation) {
-        router.push('/login');
-        }
-    
-        getAllPosts();
-    
-        return () => {};
-    }, [token, router, isError, message, navigation]);
-    
-    if (isLoading) {
+        localStorage.getItem('user') ?  getAllPosts() : router.push('/login');
+    }, [router]);
+    if (loading) {
         return <Spinner />;
     }
-    
     return (
-        <>
-        <UserInfos />
-        <Container>
-            <Card>
-            <section className="heading">
-                <h1>Salut {navigation && navigation.name}</h1>
-                
-                <LinkParola />
-                <p>Updateaza continutul paginii:</p>
-            </section>
-    
-            <RotatieForm />
-    
-            <section className="content">
-                <RotatieItem />
-            </section>
-            </Card>
-        </Container>
-        </>
+        <div>
+            <Container>
+                <Card>
+                    <Card.Header>
+                        <UserInfos />
+                    </Card.Header>
+                    <Card.Body>
+                        <PostForm />
+                    </Card.Body>
+                </Card>
+            </Container>
+            <Container>
+           {Array.isArray(data) ? <h1>Postari</h1> : <h1>Nu exista postari</h1>}
+                {/* {data.map((data: any) => {
+                    return <Continut key={data.id} data={data} />;
+                })} */}
+            </Container>
+        </div>
     );
-    }
+}
 
+export default Postari;

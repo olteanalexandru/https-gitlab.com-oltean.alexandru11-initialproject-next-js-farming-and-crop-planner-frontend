@@ -22,7 +22,7 @@ interface ContextProps {
     setError: Dispatch<SetStateAction<string>>;
     loading: boolean;
     setLoading: Dispatch<SetStateAction<boolean>>;
-    createPost: (title: string, brief: string, description: string, image: string) => Promise<void>;
+    createPost: ( data: DataType , token:string   ) => Promise<void>;
     modify: (id: string , title: string, brief: string, description: string, image: string) => Promise<void>;
     deletePost: (id: string) => Promise<void>;
     getPost: (id: string) => Promise<void>;
@@ -75,6 +75,7 @@ export const GlobalContextProvider: React.FC<Props> = ({ children }) => {
             if (data.error) {
                 setError(data.error);
                 setLoading(false);
+                console.log(data.error)
             } else {
                 setData(data);
                 setLoading(false);
