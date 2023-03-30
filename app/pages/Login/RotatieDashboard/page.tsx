@@ -17,7 +17,7 @@ function RotatieDashboard() {
 
   const {crops, isLoading, isError, message, getCrops , getAllCrops, selectare } = useGlobalContextCrop()
   const { data } = useGlobalContext()
- const {user } = data;
+ const { user } = data;
 const LocalUser = localStorage.getItem('user')
 const id = JSON.parse(LocalUser)._id
 
@@ -29,8 +29,6 @@ const id = JSON.parse(LocalUser)._id
   if (!data) {
     navigate.push('/login')
   }
-
-
     getAllCrops()
 
   return () => {

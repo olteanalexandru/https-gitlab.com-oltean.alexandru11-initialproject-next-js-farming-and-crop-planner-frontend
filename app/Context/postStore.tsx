@@ -1,5 +1,5 @@
+'use client';
 import { createContext, useContext, Dispatch , SetStateAction , useState } from 'react';
-
 import axios from 'axios'
 
 const API_URL = 'http://localhost:5000/api/posts/'
@@ -17,7 +17,7 @@ type DataType = {
 
 interface ContextProps {
     data: any;
-    setData: Dispatch<SetStateAction<DataType>>;
+    setData: Dispatch<SetStateAction<any>>;
     error: string;
     setError: Dispatch<SetStateAction<string>>;
     loading: boolean;
@@ -29,6 +29,21 @@ interface ContextProps {
     getAllPosts: () => Promise<void>;
 }
 
+const ContextProps  = createContext<ContextProps>({
+    data: [],
+    setData: () => {},
+    error: '',
+    setError: () => {},
+    loading: false,
+    setLoading: () => {},
+    createPost: () => Promise.resolve(),
+    modify: () => Promise.resolve(),
+    deletePost: () => Promise.resolve(),
+    getPost: () => Promise.resolve(),
+    getAllPosts: () => Promise.resolve(),
+});
+
+
 interface Props {
     children: React.ReactNode;
     }
@@ -36,13 +51,11 @@ interface Props {
 
 
 const GlobalContext = createContext<ContextProps>({} as ContextProps);
-
 export const GlobalContextProvider: React.FC<Props> = ({ children }) => {
+
     const [data, setData] = useState<DataType>({id: '' ,title: '', brief: '', description: '', image: '', user: '', token: '' });
     const [error, setError] = useState<string>('');
     const [loading, setLoading] = useState<boolean>(false);
-
-    
 
 
     const createPost = async ({ title, brief, description, image }: any, token: string) => {
@@ -53,7 +66,6 @@ export const GlobalContextProvider: React.FC<Props> = ({ children }) => {
                 brief,
                 description,
                 image,
-                
             }, {
                 headers: {
                     Authorization: `Bearer ${token}`,
@@ -156,12 +168,31 @@ export const GlobalContextProvider: React.FC<Props> = ({ children }) => {
         }
     }
 
+
+
+
     return (
-        <GlobalContext.Provider value={{ data, setData, error, setError, loading, setLoading, getPost, getAllPosts , createPost, modify, deletePost }}>
+        <GlobalContext.Provider
+         value={{ 
+        data,
+        setData,
+        error,
+        setError,
+        loading,
+        setLoading,
+        getPost,
+        getAllPosts,
+        createPost,
+        modify,
+        deletePost,
+         }}>
             {children}
         </GlobalContext.Provider>
     );
 };
 
-export const useGlobalContextPost = () => useContext(GlobalContext);
+export const useGlobalContextPost = () =>{
+    return useContext(GlobalContext);
+} 
+
 

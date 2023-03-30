@@ -2,7 +2,7 @@
 import { useEffect, useState } from 'react'
 import { useSearchParams} from 'next/navigation'
 import { Container } from 'react-bootstrap';
-import { useGlobalContextPost } from '../../Context/postStore';
+import { useGlobalContextPost } from '../../../Context/postStore';
 
 export default function SinglePost() {
     const _id = useSearchParams().get("post") as string

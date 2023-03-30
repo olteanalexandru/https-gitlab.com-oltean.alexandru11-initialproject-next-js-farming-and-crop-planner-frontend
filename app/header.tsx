@@ -13,7 +13,7 @@ export default function Header() {
     <nav id="navbar" className="navbar">
       <ul>
         <li className="nav-link scrollto active" ><Link href="/">Home</Link></li>
-        <li className="nav-link scrollto" ><Link href="pages/noutati"> Noutati </Link></li>
+        <li className="nav-link scrollto" ><Link href="pages/Noutati"> Noutati </Link></li>
         <li className="nav-link scrollto"><Link href="pages/desprenoi">Despre noi</Link></li>
         <li className="nav-link scrollto"><Link href="pages/Rotatie">Culturi</Link></li>
         <li className="nav-link scrollto" ><Link href="pages/Recomandari">Recomandari</Link></li>

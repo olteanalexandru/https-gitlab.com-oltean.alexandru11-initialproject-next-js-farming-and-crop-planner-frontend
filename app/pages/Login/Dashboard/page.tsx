@@ -1,17 +1,17 @@
 "use client"
-import {useEffect} from 'react'
+import {useEffect} from 'react';
 import {useRouter} from 'next/navigation';
-import RotatieForm from '../../../Crud/RotatieForm'
-import RotatieItem from '../../../Crud/RotatieItem'
-import Spinner from '../../../Crud/Spinner'
-import {Card, Container} from 'react-bootstrap'
-import LinkParola from '../Elemente/page'
+import RotatieForm from '../../../Crud/RotatieForm';
+import RotatieItem from '../../../Crud/RotatieItem';
+import Spinner from '../../../Crud/Spinner';
+import {Card, Container} from 'react-bootstrap';
+import LinkParola from '../Elemente/page';
 import LinkAdaugaPostare from '../Elemente/LinkAdaugaPostare';
 import {useGlobalContext} from '../../../Context/UserStore';
 import {useGlobalContextCrop} from '../../../Context/culturaStore';
-import {UserInfos} from './userInfos'
+import {UserInfos} from './userInfos';
 
-function Dashboard() {
+export default function Dashboard() {
   const navigate = useRouter()
   const { data } = useGlobalContext()
   const { crops, isLoading, isError, message, getAllCrops } = useGlobalContextCrop()
@@ -77,4 +77,4 @@ function Dashboard() {
     
   )}}
 
- export default Dashboard
+ 

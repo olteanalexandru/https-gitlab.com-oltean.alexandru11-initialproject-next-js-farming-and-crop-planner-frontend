@@ -4,8 +4,8 @@ import { useEffect, useState } from 'react'
 import { useSearchParams} from 'next/navigation'
 import { Form } from 'react-bootstrap';
 import { Container } from 'react-bootstrap';
-import { useGlobalContext } from '../../Context/UserStore';
-import { useGlobalContextCrop } from '../../Context/culturaStore';
+import { useGlobalContext } from '../../../Context/UserStore';
+import { useGlobalContextCrop } from '../../../Context/culturaStore';
 
 
 function SinglePag( ): JSX.Element{
@@ -13,12 +13,7 @@ function SinglePag( ): JSX.Element{
   if (localStorage.getItem('user') === null) {
     return <h1>Accesul interzis</h1>
   } 
-
-  
     const { data } = useGlobalContext()
-
-
-
     const  _id = useSearchParams().get("crop") as string
     const user = localStorage.getItem('user')
     const Localuser  = localStorage.getItem('user')
@@ -27,10 +22,8 @@ function SinglePag( ): JSX.Element{
 
     const { 
       crops,
-      setCrops,
       isLoading,
       isError,
-      isSuccess,
       message,
       selectare,
       SinglePage,

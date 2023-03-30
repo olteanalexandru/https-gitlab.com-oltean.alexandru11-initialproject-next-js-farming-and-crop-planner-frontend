@@ -70,12 +70,11 @@ interface Props {
   }
 
 
-  const GlobalContext = createContext<ContextProps>({} as ContextProps);
+ const GlobalContext = createContext<ContextProps>({} as ContextProps);
  export const GlobalContextProvider: React.FC<Props> = ({ children }) => {
 
    
-    const [crops, setCrops] = useState<DataType>({title: '', description: '', image: '', text: '', category: '', startDate: '', endDate: '', status: '', progress: 0, priority: '', user: '', selectare: false, token: '' })
-    const [token, setToken] = useState([]);
+    const [crops, setCrops] = useState<DataType>({title: '', description: '', image: '', text: '', category: '', startDate: '', endDate: '', status: '', progress: 0, priority: '', user: '', selectare: false, token: '' });
     const [isLoading, setIsLoading] = useState(false);
     const [isError, setIsError] = useState(false);
     const [isSuccess, setIsSuccess] = useState(false);

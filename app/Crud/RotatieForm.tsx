@@ -1,19 +1,18 @@
 "use client"
-import { useState } from 'react'
-import { FileBase64 } from 'react-file-base64';
+import { useState } from 'react';
 import { useGlobalContextCrop } from '../Context/culturaStore';
 import { useGlobalContext } from '../Context/UserStore';
+import { FileBase64 } from 'react-file-base64';
 
 
-function RotatieForm() {
+const RotatieForm = () => {
   const [title, setTitle] = useState('')
   const [text, setText] = useState('')
   const [description, setDescription] = useState('')
   const [image, setImage] = useState('')
 
-
   const { createCrop } = useGlobalContextCrop()
-  const { data } = useGlobalContext()
+  const { data } = useGlobalContext();
 
   const onSubmit = (e : any) => {
     e.preventDefault()
@@ -28,17 +27,13 @@ function RotatieForm() {
     setImage('')    
   }
 
-
-
-
-
-
   return (
+    <div>
     <section className='form'>
       <form onSubmit={onSubmit} >
         <div className='form-group'>
-        <label htmlFor='titlu'>Titlu:</label>
-           <input
+          <label htmlFor='titlu'>Titlu:</label>
+          <input
             type='title'
             name='title'
             id='title'
@@ -55,7 +50,7 @@ function RotatieForm() {
             onChange={(e) => setText(e.target.value) }
           />
           
-         <label htmlFor='Descriere'>Continut:</label>
+          <label htmlFor='Descriere'>Continut:</label>
           <input
             type='Descriere'
             name='Descriere'
@@ -64,16 +59,10 @@ function RotatieForm() {
             onChange={(e) => setDescription(e.target.value) }
           />
 
-         <h3 className="text-center mb-4">Add Image</h3>
-                   
-
-        <FileBase64
-        multiple={ false }
-        onDone={ ({base64}) =>setImage({base64})} /> 
-                
-              
-
-
+          <h3 className="text-center mb-4">Add Image</h3>
+          <FileBase64
+            multiple={ false }
+            onDone={ ({base64}) =>setImage({base64})} /> 
         </div>
 
         <div className='form-group'>
@@ -83,7 +72,8 @@ function RotatieForm() {
         </div>
       </form>
     </section>
+    </div>
   )
 }
 
-export default RotatieForm
+export default RotatieForm;
