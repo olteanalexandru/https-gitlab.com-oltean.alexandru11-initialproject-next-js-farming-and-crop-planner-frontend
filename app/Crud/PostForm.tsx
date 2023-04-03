@@ -8,7 +8,7 @@ import { useGlobalContext } from '../Context/UserStore';
 
 function PostForm() {
     const [title, setTitle] = useState('')
-    const [text, setText] = useState('')
+    const [brief, setBrief] = useState('')
     const [description, setDescription] = useState('')
     const [image, setImage] = useState('')
     const { createPost } = useGlobalContextPost()
@@ -16,13 +16,13 @@ function PostForm() {
 
     const onSubmit = (e : any) => {
         e.preventDefault()
-        if (!title || !text || !description ) {
+        if (!title || !brief || !description ) {
             alert('Ceva lipseste')
             return
         }
-        createPost({ title, text, description, image },data.token)
+        createPost({ title, brief, description, image },data.token)
         setTitle('')
-        setText('')
+        setBrief('')
         setDescription('')
         setImage('')    
     }
@@ -45,8 +45,8 @@ function PostForm() {
                         type='text'
                         name='text'
                         id='text'
-                        value={text}
-                        onChange={(e) => setText(e.target.value) }
+                        value={brief}
+                        onChange={(e) => setBrief(e.target.value) }
                     />  
                     <label htmlFor='Descriere'>Continut:</label>
                     <input

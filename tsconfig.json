@@ -31,6 +31,6 @@
     ".next/types/**/*.ts"
 , "Crud/SinglePag/[...Crop_Id].js", "app/pages/Login/Register/page.tsx"  ],
   "exclude": [
-    "node_modules"
+    
   ]
 }

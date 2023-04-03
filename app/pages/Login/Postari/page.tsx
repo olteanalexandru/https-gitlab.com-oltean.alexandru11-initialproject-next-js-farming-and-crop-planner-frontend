@@ -36,7 +36,8 @@ function Postari() {
                 </Card>
             </Container>
             <Container>
-           {Array.isArray(data) ? <h1>Postari</h1> : <h1>Nu exista postari</h1>}
+                
+           {Array.isArray(data) ? <h1>Postari {data} </h1> : <h1>Nu exista postari</h1> }
                 {/* {data.map((data: any) => {
                     return <Continut key={data.id} data={data} />;
                 })} */}

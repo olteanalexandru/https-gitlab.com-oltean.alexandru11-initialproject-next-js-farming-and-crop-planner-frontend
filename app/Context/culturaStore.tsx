@@ -9,8 +9,8 @@ const API_URL_crops = 'http://localhost:5000/api/crops/Crops/'
 
 type DataType = {
 
-  title: string
-  description: string
+  titlu: string
+  descriere: string
   image: string
   text: string
   category: string
@@ -38,7 +38,7 @@ interface ContextProps {
   setMessage: Dispatch<SetStateAction<string>>;
   createCrop: (data: DataType,token:string ) => Promise<void>;
   getCrops: () => Promise<void>;
-  deleteCrop: (id: string) => Promise<void>;
+  deleteCrop: (id: string, token: string) => Promise<void>;
   selectare: (id: string, selectare: boolean, _id:string, token: string ) => Promise<void>;
   SinglePage: (id: string) => Promise<void>;
   getAllCrops: () => Promise<void>;
@@ -70,11 +70,12 @@ interface Props {
   }
 
 
- const GlobalContext = createContext<ContextProps>({} as ContextProps);
+  const GlobalContext = createContext<ContextProps>({} as ContextProps);
  export const GlobalContextProvider: React.FC<Props> = ({ children }) => {
 
    
-    const [crops, setCrops] = useState<DataType>({title: '', description: '', image: '', text: '', category: '', startDate: '', endDate: '', status: '', progress: 0, priority: '', user: '', selectare: false, token: '' });
+    const [crops, setCrops] = useState<DataType>({titlu: '', descriere: '', image: '', text: '', category: '', startDate: '', endDate: '', status: '', progress: 0, priority: '', user: '', selectare: false, token: '' })
+    const [token, setToken] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
     const [isError, setIsError] = useState(false);
     const [isSuccess, setIsSuccess] = useState(false);
@@ -109,9 +110,13 @@ interface Props {
     const getCrops = async () => {
         setIsLoading(true);
         try {
-        const response = await fetch(API_URL);
-        if (response.ok) {
-            const data = await response.json();
+        const response = await axios.get(API_URL, {
+            headers: {
+            Authorization: `Bearer ${token}`,
+            },
+        });
+        if (response.status === 200) {
+            const data = await response.data;
             setCrops(data);
         } else {
             setIsError(true);
@@ -123,14 +128,17 @@ interface Props {
         }
         setIsLoading(false);
     };
+
     
-    const deleteCrop = async (id: string) => {
+    const deleteCrop = async (id: string, token: string) => {
         setIsLoading(true);
         try {
-        const response = await fetch(`${API_URL}${id}`, {
-            method: 'DELETE',
+        const response = await axios.delete(API_URL + id, {
+            headers: {
+            Authorization: `Bearer ${token}`,
+            },
         });
-        if (response.ok) {
+        if (response.status === 200) {
             setIsSuccess(true);
             setMessage('Crop deleted successfully');
         } else {
@@ -162,9 +170,13 @@ interface Props {
     const SinglePage = async (id: string) => {
         setIsLoading(true);
         try {
-        const response = await fetch(`${API_URL_crops}${id}`);
-        if (response.ok) {
-            const data = await response.json();
+        const response = await axios.get(API_URL_crops + id, {
+            headers: {
+            Authorization: `Bearer ${token}`,
+            },
+        });
+        if (response.status === 200) {
+            const data = await response.data;
             setCrops(data);
         } else {
             setIsError(true);
@@ -175,14 +187,19 @@ interface Props {
         setMessage('Error getting crops');
         }
         setIsLoading(false);
-    }
+    };
+
 
     const getAllCrops = async () => {
         setIsLoading(true);
         try {
-        const response = await fetch(API_URL_crops);
-        if (response.ok) {
-            const data = await response.json();
+        const response = await axios.get(API_URL_crops, {
+            headers: {
+            Authorization: `Bearer ${token}`,
+            },
+        });
+        if (response.status === 200) {
+            const data = await response.data;
             setCrops(data);
         } else {
             setIsError(true);
@@ -193,7 +210,9 @@ interface Props {
         setMessage('Error getting crops');
         }
         setIsLoading(false);
-    }
+    };
+
+
 
     return (
         <GlobalContext.Provider

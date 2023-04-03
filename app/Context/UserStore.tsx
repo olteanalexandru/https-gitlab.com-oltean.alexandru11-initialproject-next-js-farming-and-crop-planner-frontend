@@ -13,7 +13,6 @@ type DataType = {
     password: string;
     token: string;
 }
-
 interface ContextProps {
     data: DataType;
     setData: Dispatch<SetStateAction<DataType>>;
@@ -63,10 +62,6 @@ export const GlobalContextProvider: React.FC<Props> = ({ children }) => {
             setLoading(false);
         }
     };
-
-
-
-
 
     const login = async (email: string, password: string) => {
         setLoading(true);
@@ -121,9 +116,6 @@ export const GlobalContextProvider: React.FC<Props> = ({ children }) => {
             setLoading(false);
         }
     };
-
-
-
 
     return (
         <GlobalContext.Provider

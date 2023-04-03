@@ -29,8 +29,6 @@ export default function Dashboard() {
     if (data.rol == 'agent') {
       getAllCrops();
     }
-
-    return () => {};
   }, [token, navigate, isError, message, data]);
 
   if (isLoading) {
@@ -55,7 +53,7 @@ export default function Dashboard() {
               {crops.length > 0 ? (
                 <div className="crops">
                   {crops.map((crop) => (
-                    <RotatieItem key={crop._id} crop={crop} />
+                    <RotatieItem crop={crop}  />
                   ))}
                 </div>
               ) : (

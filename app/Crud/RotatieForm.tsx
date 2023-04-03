@@ -5,24 +5,24 @@ import { useGlobalContext } from '../Context/UserStore';
 import FileBase from 'react-file-base64';
 
 const RotatieForm = () => {
-  const [title, setTitle] = useState('')
+  const [titlu, setTitlu] = useState('')
   const [text, setText] = useState('')
-  const [description, setDescription] = useState('')
+  const [descriere, setDescriere] = useState('')
   const [image, setImage] = useState('')
-
   const { createCrop } = useGlobalContextCrop()
   const { data } = useGlobalContext();
 
   const onSubmit = (e) => {
     e.preventDefault()
-    if (!title || !text || !description || !image) {
+    if (!titlu || !text || !descriere || !image) {
       alert('Ceva lipseste')
       return
     }
-    createCrop({  title, text, description, image  },data.token)
-    setTitle('')
+
+    createCrop({titlu,text,descriere,image},data.token)
+    setTitlu('')
     setText('')
-    setDescription('')
+    setDescriere('')
     setImage('')    
   }
 
@@ -36,8 +36,8 @@ const RotatieForm = () => {
               type='text'
               name='title'
               id='title'
-              value={title}
-              onChange={(e) => setTitle(e.target.value)}
+              value={titlu}
+              onChange={(e) => setTitlu(e.target.value)}
             />
 
             <label htmlFor='text'>Pe scurt:</label>
@@ -53,8 +53,8 @@ const RotatieForm = () => {
             <textarea
               name='description'
               id='description'
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
+              value={descriere}
+              onChange={(e) => setDescriere(e.target.value)}
             />
 
             <h3 className="text-center mb-4">Add Image</h3>

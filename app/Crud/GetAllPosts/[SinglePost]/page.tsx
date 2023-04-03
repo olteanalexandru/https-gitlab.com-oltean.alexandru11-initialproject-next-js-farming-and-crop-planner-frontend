@@ -7,9 +7,9 @@ import { useGlobalContextPost } from '../../../Context/postStore';
 export default function SinglePost() {
     const _id = useSearchParams().get("post") as string
     const {
-        data: post,
-        loading: isLoading,
-        error: isError,
+        data,
+        loading,
+        error,
         getPost,
     } = useGlobalContextPost();
 
@@ -18,22 +18,20 @@ export default function SinglePost() {
     }
     , [_id]);
 
-    if (isLoading) {
+    if (loading) {
         return <h1>Loading...</h1>;
     }
+console.log(data , 'data')
+   
 
-    if (isError) {
-        return <h1>{isError}</h1>;
-    }
-
-    if (!post) {
+    if (!data) {
         return <h1>Nothing to show</h1>;
     }
 
     return (
         <Container>
-            <h1>{post.title}</h1>
-            <p>{post.description}</p>
+            <h1>{data.title}</h1>
+            <p>{data.description}</p>
 
         </Container>
     );

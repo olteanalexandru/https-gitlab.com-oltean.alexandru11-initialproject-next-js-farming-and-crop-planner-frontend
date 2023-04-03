@@ -3,7 +3,7 @@ import { createContext, useContext, Dispatch , SetStateAction , useState } from 
 import axios from 'axios'
 
 const API_URL = 'http://localhost:5000/api/posts/'
-const API_URL_post = 'http://localhost:5000/api/posts/post/'
+const API_URL_post = 'http://localhost:5000/api/posts/posts/'
 
 type DataType = {
     id : string;
@@ -24,7 +24,7 @@ interface ContextProps {
     setLoading: Dispatch<SetStateAction<boolean>>;
     createPost: ( data: DataType , token:string   ) => Promise<void>;
     modify: (id: string , title: string, brief: string, description: string, image: string) => Promise<void>;
-    deletePost: (id: string) => Promise<void>;
+    deletePost: (id: string, token:string) => Promise<void>;
     getPost: (id: string) => Promise<void>;
     getAllPosts: () => Promise<void>;
 }
@@ -142,18 +142,18 @@ export const GlobalContextProvider: React.FC<Props> = ({ children }) => {
             } else {
                 setData(data);
                 setLoading(false);
-                localStorage.setItem('post', JSON.stringify(response.data))
+               
             }
         } catch (error:any ) {
             setError(error.response.data.message);
             setLoading(false);
         }
     }
-
+    
     const getAllPosts = async () => {
         setLoading(true);
         try {
-            const response = await axios.get(API_URL);
+            const response = await axios.get(API_URL_post)
             const data = await response.data;
             if (data.error) {
                 setError(data.error);
@@ -161,7 +161,6 @@ export const GlobalContextProvider: React.FC<Props> = ({ children }) => {
             } else {
                 setData(data);
                 setLoading(false);
-                localStorage.setItem('post', JSON.stringify(response.data))
             }
         } catch (error:any ) {
             setError(error.response.data.message);
@@ -169,6 +168,7 @@ export const GlobalContextProvider: React.FC<Props> = ({ children }) => {
         }
     }
 
+      
 
 
 
