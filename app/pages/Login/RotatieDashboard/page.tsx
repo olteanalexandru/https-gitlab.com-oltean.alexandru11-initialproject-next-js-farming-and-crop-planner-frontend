@@ -39,7 +39,7 @@ const id = JSON.parse(LocalUser)._id
     return <Spinner />
   }
 console.log(crops)
-  if (data.rol == "admin"){
+  if (data.rol == "agent"){
   return (
     <>
     <Container><Card>

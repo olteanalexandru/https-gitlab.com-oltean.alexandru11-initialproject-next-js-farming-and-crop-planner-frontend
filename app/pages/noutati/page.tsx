@@ -1,68 +1,38 @@
 
 "use client"
-import {  useEffect } from 'react';
+import { useEffect } from 'react';
 import Spinner from '../../Crud/Spinner';
 import { useGlobalContextPost } from '../../Context/postStore';
 import Continut from '../../Crud/GetAllPosts/page';
 
-
 export default function Noutati() {
-    const { 
-       data,
-       loading,
-       getAllPosts
-      
-      } = useGlobalContextPost();
+  const { data, loading, getAllPosts } = useGlobalContextPost();
 
-    useEffect(() => {
-        getAllPosts();
-    } , []);
-    if (loading) {
-        return <Spinner />;
-        
-    }
+  useEffect(() => {
+    getAllPosts();
+  }, []);
 
+  if (loading) {
+    return <Spinner />;
+  }
 
-    // type data = {
-    //     _id: string
-    //     title: string
-    //     description: string
-    //     category: string
-    //     startDate: string
-    // }
+  return (
+    <div className="container">
+      <h1 className="mt-5 mb-4">Noutati:</h1>
 
-
-    return (
+      {data.length > 0 ? (
         <div>
-            <h1>Noutati:</h1>
-      <br />
-      <br />
-      <br />
-
-    
-          
-
-{data.length > 0 ? (
-    <div  >
-          
-
-            {data.map((data) => {
-              return (
-                <div style={{marginBottom:'4rem', minHeight:'200px' }}  >
-                <Continut  key={data._id} data={data} />
-                <p>-----------------------------------------------------------------------------------------------------------------------------------</p>
-                </div>
-              );
-            })}
-            
-
-             
-              </div> 
-            ) : (
-              <h3>Nu sa adaugat nici un continut pana acum</h3>
-            )}
-            <br />
-            <br />
+          {data.map((data) => {
+            return (
+              <div key={data._id} className="mb-5 border-bottom pb-4">
+                <Continut data={data} />
+              </div>
+            );
+          })}
         </div>
-    );
+      ) : (
+        <h3 className="mb-5">Nu sa adaugat nici un continut pana acum</h3>
+      )}
+    </div>
+  );
 }

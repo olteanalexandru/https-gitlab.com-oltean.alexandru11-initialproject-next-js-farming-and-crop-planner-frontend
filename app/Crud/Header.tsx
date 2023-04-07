@@ -35,12 +35,12 @@ function HeaderLog() {
           </li>
         ) : (
           <>
-            <li>
+            <li className='nav-link-login'>
               <Link href='/pages/Login/Login'>
                 <FaSignInAlt /> Login
               </Link>
             </li>
-            <li>
+            <li className='nav-link-login'>
               <Link href='/pages/Login/Register'>
                 <FaUser /> Register
               </Link>

@@ -63,10 +63,7 @@ export default function Desprenoi() {
     </div>
   </div>
 </div>
-<p>
-Genereaza o pagina html cu bootstrap ( fara header si footer) in care descri ce activitati sustine platforma noasta agricola ( exemplu: Rotatii automate culturi , Recomandari , Comunica cu Api-uri cum ar fi vremea pentru a da  sfaturi , Management al culturilor )
 
-</p>
 </div>
 
 )

@@ -12,7 +12,6 @@ export default function Home() {
   return (
 	
     <div className={containerClasses}>
-		<h1 className='text-red-900 underline font-bold'>Hello Tailwind CSS</h1>
 		<br />
 		
       <h1 className={titleClasses}>Bine ați venit pe pagina principală a platformei agricole!</h1>
