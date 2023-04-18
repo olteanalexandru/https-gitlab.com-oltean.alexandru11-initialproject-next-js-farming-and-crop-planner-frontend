@@ -4,7 +4,7 @@ import Mail from "./Componente/Mail"
 export default function Footer() {
   return (
     <div className="bg-light" style={{ borderTop: '1px dotted' }}>
-      <footer id="footer" className="bg-success py-2 rounded mx-auto w-100" style={{ maxWidth: '1200px' }}>
+      <footer id="footer" className="bg-success py-2 rounded mx-auto w-100" style={{ maxWidth: '1200px' , marginTop: '10px' }}>
         <div className="container">
           <div className="row">
             <div className="col-lg-3 col-md-6">

@@ -30,8 +30,8 @@ export default function RootLayout({
                 </GlobalContextProvider>
               </CulturaStore>
             </PostStore>
-          </div>
           <Footer />
+          </div>
         </div>
       </body>
     </html>
