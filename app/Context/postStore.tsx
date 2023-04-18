@@ -6,7 +6,8 @@ const API_URL = 'http://localhost:5000/api/posts/'
 const API_URL_post = 'http://localhost:5000/api/posts/posts/'
 
 type DataType = {
-    id : string;
+    id: string;
+    _id: string;
     title: string;
     brief: string;
     description: string;
@@ -23,8 +24,8 @@ interface ContextProps {
     loading: boolean;
     setLoading: Dispatch<SetStateAction<boolean>>;
     createPost: ( data: DataType , token:string   ) => Promise<void>;
-    modify: (id: string , title: string, brief: string, description: string, image: string) => Promise<void>;
-    deletePost: (id: string, token:string) => Promise<void>;
+    updatePost: (id: string , title: string, brief: string, description: string, image: string) => Promise<void>;
+    deletePost: (_id: string, token:string) => Promise<void>;
     getPost: (id: string) => Promise<void>;
     getAllPosts: () => Promise<void>;
 }
@@ -53,7 +54,7 @@ interface Props {
 const GlobalContext = createContext<ContextProps>({} as ContextProps);
 export const GlobalContextProvider: React.FC<Props> = ({ children }) => {
 
-    const [data, setData] = useState<DataType>({id: '' ,title: '', brief: '', description: '', image: '', user: '', token: '' });
+    const [data, setData] = useState<any[]>([]);
     const [error, setError] = useState<string>('');
     const [loading, setLoading] = useState<boolean>(false);
 
@@ -61,7 +62,37 @@ export const GlobalContextProvider: React.FC<Props> = ({ children }) => {
     const createPost = async ({ title, brief, description, image }: any, token: string) => {
         setLoading(true);
         try {
-            const response = await axios.post(API_URL, {
+          const response = await axios.post(API_URL, {
+            title,
+            brief,
+            description,
+            image,
+          }, {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            }
+          });
+          const data = await response.data;
+          if (data.error) {
+            setError(data.error);
+            setLoading(false);
+            console.log(data.error)
+          } else {
+            setData((prevData) => [...prevData, data]);
+            setLoading(false);
+            localStorage.setItem('post', JSON.stringify(response.data))
+          }
+        } catch (error: any) {
+          setError(error.response.data.message);
+          setLoading(false);
+        }
+      }
+
+
+    const updatePost = async (id ,{ title, brief, description, image }: any, token: string) => {
+        setLoading(true);
+        try {
+            const response = await axios.put(API_URL + id, {
                 title,
                 brief,
                 description,
@@ -69,33 +100,7 @@ export const GlobalContextProvider: React.FC<Props> = ({ children }) => {
             }, {
                 headers: {
                     Authorization: `Bearer ${token}`,
-                    }
-                    });
-            const data = await response.data;
-            if (data.error) {
-                setError(data.error);
-                setLoading(false);
-                console.log(data.error)
-            } else {
-                setData(data);
-                setLoading(false);
-                localStorage.setItem('post', JSON.stringify(response.data))
-            }
-        } catch (error:any ) {
-            setError(error.response.data.message);
-            setLoading(false);
-        }
-    }
-
-
-    const modify = async (id: string , title: string, brief: string, description: string, image: string) => {
-        setLoading(true);
-        try {
-            const response = await axios.put(API_URL_post + id , {
-                title,
-                brief,
-                description,
-                image,
+                }
             });
             const data = await response.data;
             if (data.error) {
@@ -104,18 +109,25 @@ export const GlobalContextProvider: React.FC<Props> = ({ children }) => {
             } else {
                 setData(data);
                 setLoading(false);
-                localStorage.setItem('post', JSON.stringify(response.data))
             }
         } catch (error:any ) {
             setError(error.response.data.message);
             setLoading(false);
         }
     }
+ 
 
-    const deletePost = async (id: string) => {
+
+    //include bearer token in header
+
+    const deletePost = async (_id: string, token:string) => {
         setLoading(true);
         try {
-            const response = await axios.delete(API_URL_post + id);
+            const response = await axios.delete(API_URL + _id, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                }
+            });
             const data = await response.data;
             if (data.error) {
                 setError(data.error);
@@ -123,13 +135,15 @@ export const GlobalContextProvider: React.FC<Props> = ({ children }) => {
             } else {
                 setData(data);
                 setLoading(false);
-                localStorage.setItem('post', JSON.stringify(response.data))
             }
         } catch (error:any ) {
             setError(error.response.data.message);
             setLoading(false);
         }
     }
+
+
+
 
     const getPost = async (id: string) => {
         setLoading(true);
@@ -184,7 +198,7 @@ export const GlobalContextProvider: React.FC<Props> = ({ children }) => {
         getPost,
         getAllPosts,
         createPost,
-        modify,
+        updatePost,
         deletePost,
          }}>
             {children}

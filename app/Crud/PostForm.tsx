@@ -40,7 +40,7 @@ function PostForm() {
                         onChange={(e) => setTitle(e.target.value)}
                     />
 
-                    <label htmlFor='text'>Pe scurt:</label>
+                    <label htmlFor='text'>Pe s scurt:</label>
                     <input
                         type='text'
                         name='text'

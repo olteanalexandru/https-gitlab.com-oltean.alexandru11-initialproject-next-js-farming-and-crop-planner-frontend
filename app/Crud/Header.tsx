@@ -1,55 +1,55 @@
 'use client'
-import {FaSignInAlt, FaSignOutAlt, FaUser} from 'react-icons/fa'
-import {useGlobalContext} from '../Context/UserStore';
+import { FaSignInAlt, FaSignOutAlt, FaUser } from 'react-icons/fa';
+import { useGlobalContext } from '../Context/UserStore';
 import Link from 'next/link';
-import {useRouter} from 'next/navigation';
-
-
+import { useRouter } from 'next/navigation';
 function HeaderLog() {
-  const { data,  logout } = useGlobalContext()
+  const { data, logout } = useGlobalContext();
 
-  
-
-  const navigate = useRouter() ;
-  
+  const navigate = useRouter();
 
   const onLogout = () => {
-    logout()
-    navigate.push('/')
-  }
-
+    logout();
+    navigate.push('/');
+  };
 
   return (
-    <header className='header'>
-   { data.token  ?  <div className='logo'>
-        <Link href='/pages/Login/Dashboard/'>{ data.name}</Link>
-      <br /> 
-        <Link href='/pages/Login/RotatieDashboard/'>Pagina Rotatie</Link>
-      </div> : ''} 
-      <ul>
+    <header className="header  py-2">
+      {data.token ? (
+        <div className="logo d-inline-block">
+          <Link href="/pages/Login/Dashboard/" className="text-decoration-none text-dark fw-bold">{data.name}</Link>
+          <br />
+          {data.rol === 'Fermier' && (
+            <Link href="/pages/Login/RotatieDashboard/" className="text-decoration-none text-dark">Pagina Rotatie</Link>
+          )}
+        </div>
+      ) : (
+        ''
+      )}
+      <ul className="list-unstyled mb-0">
         {data.token ? (
-          <li>
-            <button className='btn' onClick={onLogout}>
+          <li className="d-inline-block">
+            <button className="btn btn-outline-dark" onClick={onLogout} style={{borderRadius: "25px"}}>
               <FaSignOutAlt /> Logout
             </button>
           </li>
         ) : (
           <>
-            <li className='nav-link-login'>
-              <Link href='/pages/Login/Login'>
+            <li className="nav-link-login d-inline-block">
+              <Link href="/pages/Login/Login" className="text-decoration-none text-dark">
                 <FaSignInAlt /> Login
               </Link>
             </li>
-            <li className='nav-link-login'>
-              <Link href='/pages/Login/Register'>
+            <li className="nav-link-login d-inline-block">
+              <Link href="/pages/Login/Register" className="text-decoration-none text-dark">
                 <FaUser /> Register
               </Link>
             </li>
           </>
-        ) } 
+        )}
       </ul>
     </header>
-  ) 
+  );
 }
 
-export default HeaderLog
+export default HeaderLog;

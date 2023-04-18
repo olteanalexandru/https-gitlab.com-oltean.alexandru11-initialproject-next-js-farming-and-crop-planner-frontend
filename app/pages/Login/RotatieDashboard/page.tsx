@@ -39,46 +39,17 @@ const id = JSON.parse(LocalUser)._id
     return <Spinner />
   }
 console.log(crops)
-  if (data.rol == "agent"){
-  return (
-    <>
-    <Container><Card>
-      <section className='heading'>
-        <h1>Salut admin:  {data["name"]}</h1>
-        
-
-      </section>
-      <h3>S-au selectat :</h3>
-  
-      <section className='content'>
-        {crops.length > 0 ? (
-          <div className='crops'>
-            {crops.filter((crop) => crop.selectare).map((crop) => (
-              <Continut key={crop._id} crop={crop} />
-            ))}
-          
-          </div>
-        ) : (
-          <h3>Nici o cerere momentan</h3>
-        )}
-      </section>
-      </Card>
-<LinkParola/>
-      </Container>
-    </>
-    
-  )} else {
-   
+  if (data.rol == "Fermier"){
     return(
       <>
     <Container><Card>
       <section className='heading'>
-        <h1>Salut utilizator {data && data.name}</h1> 
+        <h1>Salut {data && data.name}</h1> 
       </section>
       <section className='content'>
         {crops.length > 0 ? (
           <div className='crops'>
-            <p>Ai selectat:</p>
+            <p>Ai selectat pentru rotatie:</p>
      
 
             {crops.filter((crop) => crop.selectareBy === id).length == 0 ? (
@@ -93,15 +64,16 @@ console.log(crops)
 
           </div>
         ) : (
-          <h3>Nici o cerere momentan</h3>
+          <h3>Nici o selectie momentan</h3>
         )}
+
       </section>
       </Card>
 <LinkParola/>
       </Container>
     </>
     )
-  }
+  } 
 }
 
 export default RotatieDashboard
