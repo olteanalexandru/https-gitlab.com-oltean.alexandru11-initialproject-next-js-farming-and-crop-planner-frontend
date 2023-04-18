@@ -10,68 +10,55 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import {useGlobalContext} from '../../../Context/UserStore';
 
 function Register() {
-
-  
-
   const [formData, setFormData] = useState({
-    rol: '',
+    rol: 'Fermier',
     name: '',
     email: '',
     password: '',
     password2: '',
-  })
+  });
 
-  const { rol, name, email, password, password2 } = formData
+  const { rol, name, email, password, password2 } = formData;
 
-  const { data, setData, error, setError, loading,  register } = useGlobalContext()
+  const { data, setData, error, setError, loading, register } = useGlobalContext();
 
-  const navigate = useRouter()
+  const navigate = useRouter();
 
   const onChange = (e) => {
     setFormData((prevState) => ({
       ...prevState,
       [e.target.name]: e.target.value,
-    }))
-  }
+    }));
+  };
 
   useEffect(() => {
     if (error) {
-      toast.error(error)
-      setError('')
+      toast.error(error);
+      setError('');
     }
 
     if (data.error) {
-      toast.error(data.error)
-      setData({rol: '' , email: '', password: '', token: '' })
+      toast.error(data.error);
+      setData({ rol: '', email: '', password: '', token: '' });
     }
-      if (data.token) {
-        navigate.push('/')
-      } 
-
-    
-    
-  }, [error, data])
+    if (data.token && data.rol !== 'Administrator') {
+      navigate.push('/');
+    }
+  }, [error, data]);
 
   const onSubmit = (e) => {
-    e.preventDefault()
+    e.preventDefault();
     if (password !== password2) {
-      toast.error('Passwords do not match')
+      toast.error('Passwords do not match');
     } else {
-
-    register(rol, name, email, password)
-    console.log(localStorage.getItem('token'))
-  }
-  }
-
+      register(rol, name, email, password);
+      console.log(localStorage.getItem('token'));
+    }
+  };
 
   if (loading) {
-    return <Spinner />
+    return <Spinner />;
   }
-
-
-  // useEffect(() => {
-  //   console.log(rol , name, email, password, password2)
-  //   })
 
   return (
     <>
@@ -84,16 +71,25 @@ function Register() {
 
       <section className='form'>
         <Form onSubmit={onSubmit}>
-
-        <div className='form-group'>
-        <label>
-        <select as="select" aria-label="Rol" value={formData.rol} onChange={onChange} type='text' name='rol' id='rol' className='form-control'>
-        <option type='text'>Selecteaza rol</option>
-        <option type='text' value='client'>Client</option>
-       <option type='text' value='agent'>Agent imobiliar</option>
-        </select>
-        </label>
-</div>
+          {data.rol === 'Administrator' && (
+            <div className='form-group'>
+              <label>
+                <select
+                  as='select'
+                  aria-label='Rol'
+                  value={formData.rol}
+                  onChange={onChange}
+                  name='rol'
+                  id='rol'
+                  className='form-control'
+                >
+                  <option>Selecteaza rol</option>
+                  <option value='Fermier'>Fermier</option>
+                  <option value='Administrator'>Administrator</option>
+                </select>
+              </label>
+            </div>
+          )}
 
           <div className='form-group'>
             <input
@@ -132,29 +128,26 @@ function Register() {
             <input
               type='password'
               className='form-control'
-              id='password2'
-              name='password2'
-              value={formData.password2}
-              placeholder='Confirm password'
-              onChange={onChange}
-            />
-          </div>
-          <div className='form-group'>
-            <button type='submit' className='btn btn-block'>
-              Submit
-            </button>
-          </div>
-        </Form>
-        
+          id='password2'
+          name='password2'
+          value={formData.password2}
+          placeholder='Confirm password'
+          onChange={onChange}
+        />
+      </div>
+      <div className='form-group'>
+        <button type='submit' className='btn btn-block'>
+          Submit
+        </button>
+      </div>
+    </Form>
 
-        <p>
-          Already have an account? <a href='/'>Login</a>
-        </p>
-
-
-      </section>
-    </>
-  )
+    <p>
+      Already have an account? <a href='/'>Login</a>
+    </p>
+  </section>
+</>
+);
 }
 
-export default Register
+export default Register;

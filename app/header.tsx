@@ -8,7 +8,7 @@ export default function Header() {
       <header id="header" className="bg-success py-2 rounded mx-auto w-100" style={{ maxWidth: '1200px' }}>
         <div className="container d-flex align-items-center justify-content-between">
           <Link href="/" className="logo d-flex align-items-center">
-            <Image src="/../public/Logo.jpg" width={50} height={50} alt="Platforma agricola logo" />
+            <Image src="/../public/Logo.png" width={50} height={50} alt="Platforma agricola logo" />
             <span className="ms-2 text-white">Platforma agricola</span>
           </Link>
           <nav id="navbar" className="navbar">

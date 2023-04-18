@@ -1,18 +1,19 @@
 'use client';
-
-import { createContext, useContext, Dispatch , SetStateAction , useState } from 'react';
+import { createContext, useContext, Dispatch, SetStateAction, useState } from 'react';
 import axios from 'axios'
-// PATHS: 'auth/register' , 'auth/modifica' , 'auth/login' , 'auth/logout' 
+
 const API_URL = 'http://localhost:5000/api/users/'
 
 type DataType = {
-    id : string;
+    id: string;
     rol: string;
-    name : string;
+    name: string;
     email: string;
     password: string;
     token: string;
+    fermierUsers?: any[];
 }
+
 interface ContextProps {
     data: DataType;
     setData: Dispatch<SetStateAction<DataType>>;
@@ -20,29 +21,36 @@ interface ContextProps {
     setError: Dispatch<SetStateAction<string>>;
     loading: boolean;
     setLoading: Dispatch<SetStateAction<boolean>>;
+    fetchFermierUsers: () => Promise<void>;
     register: (rol: string, name: string, email: string, password: string) => Promise<void>;
     login: (email: string, password: string) => Promise<void>;
     logout: () => void;
-    modify: (id: string , password: string) => Promise<void>;
+    modify: (id: string, password: string) => Promise<void>;
+    deleteUser: (id: string) => Promise<void>;
+    loadingFermierUsers: boolean;
+    setLoadingFermierUsers: Dispatch<SetStateAction<boolean>>;
+    fermierUsers: any[];
+    setFermierUsers: Dispatch<SetStateAction<any[]>>;
+    
 }
 
 interface Props {
     children: React.ReactNode;
-  }
-
+}
 
 const GlobalContext = createContext<ContextProps>({} as ContextProps);
 
 export const GlobalContextProvider: React.FC<Props> = ({ children }) => {
-    const [data, setData] = useState<DataType>({id: '' ,rol: '' ,name: '', email: '', password: '', token: '' });
+    const [data, setData] = useState<DataType>({ id: '', rol: '', name: '', email: '', password: '', token: '' , fermierUsers: [],});
     const [error, setError] = useState<string>('');
     const [loading, setLoading] = useState<boolean>(false);
+    const [loadingFermierUsers, setLoadingFermierUsers] = useState(false);
+    const [fermierUsers, setFermierUsers] = useState([]);
 
-
-    const register = async (rol: string, name: string, email: string, password: string  ) => {
+    const register = async (rol: string, name: string, email: string, password: string) => {
         setLoading(true);
         try {
-            const response = await axios.post(API_URL , {
+            const response = await axios.post(API_URL, {
                 rol,
                 name,
                 email,
@@ -57,8 +65,8 @@ export const GlobalContextProvider: React.FC<Props> = ({ children }) => {
                 setLoading(false);
                 localStorage.setItem('user', JSON.stringify(response.data))
             }
-        } catch (error:any ) {
-            setError(error);  
+        } catch (error: any) {
+            setError(error);
             setLoading(false);
         }
     };
@@ -85,20 +93,15 @@ export const GlobalContextProvider: React.FC<Props> = ({ children }) => {
         }
     };
 
-
     const logout = () => {
-        
-        setData({id:'',rol:'',name:'', email: '', password: '', token: '' });
+        setData({ id: '', rol: '', name: '', email: '', password: '', token: '', fermierUsers: [], });
         localStorage.removeItem('user');
-
     };
 
-
-    // password , user._id
-    const modify = async (password: string, id: string) => {
+    const modify = async (id: string, password: string) => {
         setLoading(true);
         try {
-            const response = await axios.put(API_URL , {
+            const response = await axios.put(API_URL, {
                 _id: id,
                 password: password,
             });
@@ -117,6 +120,38 @@ export const GlobalContextProvider: React.FC<Props> = ({ children }) => {
         }
     };
 
+    const fetchFermierUsers = async () => {
+        try {
+          setLoadingFermierUsers(true);
+          const response = await axios.get(API_URL + 'fermier', {
+            headers: {
+              Authorization: `Bearer ${data.token}`,
+            },
+          });
+          setFermierUsers(response.data);
+        } catch (error) {
+          setError('Error fetching Fermier users');
+        } finally {
+          setLoadingFermierUsers(false);
+        }
+      };
+      
+      const deleteUser = async (id: string) => {
+        try {
+          setLoading(true);
+          await axios.delete(API_URL + id, {
+            headers: {
+              Authorization: `Bearer ${data.token}`,
+            },
+          });
+          setLoading(false);
+          setData({ ...data, fermierUsers: data?.fermierUsers?.filter((user: any) => user._id !== id) });
+        } catch (error) {
+          setError('Error deleting user');
+          setLoading(false);
+        }
+      };
+
     return (
         <GlobalContext.Provider
             value={{
@@ -130,12 +165,17 @@ export const GlobalContextProvider: React.FC<Props> = ({ children }) => {
                 login,
                 logout,
                 modify,
+                fetchFermierUsers,
+                deleteUser,
+                loadingFermierUsers,
+                fermierUsers,
+
             }}>
             {children}
-        </GlobalContext.Provider>
-    );
+            </GlobalContext.Provider>
+);
 };
 
 export const useGlobalContext = () => {
-    return useContext(GlobalContext);
+return useContext(GlobalContext);
 };

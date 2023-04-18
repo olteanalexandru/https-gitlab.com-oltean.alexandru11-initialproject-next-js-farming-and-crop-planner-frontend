@@ -1,8 +1,4 @@
-"use client"
 
-import {  useEffect } from 'react';
-import Spinner from '../Crud/Spinner'
-import { useGlobalContextPost } from '../Context/postStore';
 
 type postType = {
     _id: string

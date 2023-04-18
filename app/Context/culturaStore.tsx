@@ -37,11 +37,12 @@ interface ContextProps {
   message: string;
   setMessage: Dispatch<SetStateAction<string>>;
   createCrop: (data: DataType,token:string ) => Promise<void>;
-  getCrops: () => Promise<void>;
+  getCrops: (token:string) => Promise<void>;
   deleteCrop: (id: string, token: string) => Promise<void>;
   selectare: (id: string, selectare: boolean, _id:string, token: string ) => Promise<void>;
   SinglePage: (id: string) => Promise<void>;
   getAllCrops: () => Promise<void>;
+  updateCrop: (id: string , data: DataType , token: string ) => Promise<void>;
 }
 
 
@@ -62,6 +63,7 @@ const ContextProps  = createContext<ContextProps>({
     selectare: () => Promise.resolve(),
     SinglePage: () => Promise.resolve(),
     getAllCrops: () => Promise.resolve(),
+    updateCrop: () => Promise.resolve(),
 }
 )
 
@@ -106,8 +108,34 @@ interface Props {
         setIsLoading(false);
     };
 
+    const updateCrop = async (id: string , data: DataType , token: string ) => {
+        setIsLoading(true);
+        try {
+        const response = await axios.put(API_URL + id, data, {
+            headers: {
+            Authorization: `Bearer ${token}`,
+            },
+        });
+        if (response.status === 200) {
+            setIsSuccess(true);
+            setMessage('Crop updated successfully');
+        } else {
+            setIsError(true);
+            setMessage('Error updating crop');
+        }
+        } catch (err) {
+        setIsError(true);
+        setMessage('Error updating crop');
+        }
+        setIsLoading(false);
+    };
+
+
+
     
-    const getCrops = async () => {
+    const getCrops = async ( 
+        token:string
+    ) => {
         setIsLoading(true);
         try {
         const response = await axios.get(API_URL, {
@@ -116,8 +144,7 @@ interface Props {
             },
         });
         if (response.status === 200) {
-            const data = await response.data;
-            setCrops(data);
+            setCrops(response.data);
         } else {
             setIsError(true);
             setMessage('Error getting crops');
@@ -128,6 +155,10 @@ interface Props {
         }
         setIsLoading(false);
     };
+
+    
+
+
 
     
     const deleteCrop = async (id: string, token: string) => {
@@ -151,6 +182,7 @@ interface Props {
         }
         setIsLoading(false);
     };
+
     
 
 
@@ -233,6 +265,7 @@ interface Props {
             selectare,
             SinglePage,
             getAllCrops,
+            updateCrop,
         }}
         >
         {children}
