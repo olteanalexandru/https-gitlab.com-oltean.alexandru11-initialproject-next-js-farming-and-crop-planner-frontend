@@ -7,46 +7,47 @@ const API_URL = 'http://localhost:5000/api/crops/'
 const API_URL_crops = 'http://localhost:5000/api/crops/Crops/'
 
 
+
 type DataType = {
-
-  titlu: string
-  descriere: string
-  image: string
-  text: string
-  category: string
-  startDate: string
-  endDate: string
-  status: string
-  progress: number
-  priority: string
-  user: string
-  selectare: boolean
-  token: string
-}
-
-
-interface ContextProps {
-  crops: any;
-  setCrops: Dispatch<SetStateAction<any>>;
-  isLoading: boolean;
-  setIsLoading: Dispatch<SetStateAction<boolean>>;
-  isError: boolean;
-  setIsError: Dispatch<SetStateAction<boolean>>;
-  isSuccess: boolean;
-  setIsSuccess: Dispatch<SetStateAction<boolean>>;
-  message: string;
-  setMessage: Dispatch<SetStateAction<string>>;
-  createCrop: (data: DataType,token:string ) => Promise<void>;
-  getCrops: (token:string) => Promise<void>;
-  deleteCrop: (id: string, token: string) => Promise<void>;
-  selectare: (id: string, selectare: boolean, _id:string, token: string ) => Promise<void>;
-  SinglePage: (id: string) => Promise<void>;
-  getAllCrops: () => Promise<void>;
-  updateCrop: (id: string , data: DataType , token: string ) => Promise<void>;
-}
-
-
-const ContextProps  = createContext<ContextProps>({
+    _id: string;
+    cropName: string;
+    cropType: string;
+    cropVariety: string;
+    plantingDate: string;
+    harvestingDate: string;
+    description: string;
+    imageUrl: string;
+    soilType: string;
+    climate: string;
+    fertilizers: string[];
+    pests: string[];
+    diseases: string[];
+    selectare: boolean;
+    user: string;
+    token: string;
+  };
+  
+  interface ContextProps {
+    crops: any;
+    setCrops: Dispatch<SetStateAction<any>>;
+    isLoading: boolean;
+    setIsLoading: Dispatch<SetStateAction<boolean>>;
+    isError: boolean;
+    setIsError: Dispatch<SetStateAction<boolean>>;
+    isSuccess: boolean;
+    setIsSuccess: Dispatch<SetStateAction<boolean>>;
+    message: string;
+    setMessage: Dispatch<SetStateAction<string>>;
+    createCrop: (data: DataType, token: string) => Promise<void>;
+    getCrops: (token: string) => Promise<void>;
+    deleteCrop: (id: string, token: string) => Promise<void>;
+    selectare: (id: string, selectare: boolean, _id: string, token: string) => Promise<void>;
+    SinglePage: (id: string) => Promise<void>;
+    getAllCrops: () => Promise<void>;
+    updateCrop: (id: string, data: DataType, token: string) => Promise<void>;
+  }
+  
+  const ContextProps = createContext<ContextProps>({
     crops: [],
     setCrops: () => {},
     isLoading: false,
@@ -64,8 +65,8 @@ const ContextProps  = createContext<ContextProps>({
     SinglePage: () => Promise.resolve(),
     getAllCrops: () => Promise.resolve(),
     updateCrop: () => Promise.resolve(),
-}
-)
+  });
+  
 
 interface Props {
     children: React.ReactNode;
@@ -76,7 +77,7 @@ interface Props {
  export const GlobalContextProvider: React.FC<Props> = ({ children }) => {
 
    
-    const [crops, setCrops] = useState<DataType>({titlu: '', descriere: '', image: '', text: '', category: '', startDate: '', endDate: '', status: '', progress: 0, priority: '', user: '', selectare: false, token: '' })
+    const [crops, setCrops] = useState<DataType>({_id: '', cropName: '', cropType: '', cropVariety: '', plantingDate: '', harvestingDate: '', description: '', imageUrl: '', soilType: '', climate: '', fertilizers: [], pests: [], diseases: [], user: '', token: ''})
     const [token, setToken] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
     const [isError, setIsError] = useState(false);

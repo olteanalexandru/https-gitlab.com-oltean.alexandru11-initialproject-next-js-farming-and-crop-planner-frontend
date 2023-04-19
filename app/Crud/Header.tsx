@@ -1,5 +1,5 @@
 'use client'
-import { FaSignInAlt, FaSignOutAlt, FaUser } from 'react-icons/fa';
+import { FaSignInAlt, FaSignOutAlt } from 'react-icons/fa';
 import { useGlobalContext } from '../Context/UserStore';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
@@ -37,14 +37,10 @@ function HeaderLog() {
           <>
             <li className="nav-link-login d-inline-block">
               <Link href="/pages/Login/Login" className="text-decoration-none text-dark">
-                <FaSignInAlt /> Login
+                <FaSignInAlt /> SignIn
               </Link>
             </li>
-            <li className="nav-link-login d-inline-block">
-              <Link href="/pages/Login/Register" className="text-decoration-none text-dark">
-                <FaUser /> Register
-              </Link>
-            </li>
+           
           </>
         )}
       </ul>

@@ -38,7 +38,7 @@ export default function Dashboard() {
     if (data && data.rol === 'Fermier') {
       getCrops(data.token);
     }
-  }, [data, getCrops]);
+  }, [data]);
 
   if (isLoading) {
     return <Spinner />;
