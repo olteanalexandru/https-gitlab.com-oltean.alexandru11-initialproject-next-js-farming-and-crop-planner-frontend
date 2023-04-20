@@ -93,9 +93,15 @@ export default function Dashboard() {
               <section className="content">
                 {crops.length > 0 ? (
                   <div className="crops">
+<<<<<<< HEAD
                    
                       <RotatieItem crop={crops}  />
                   
+=======
+                    {crops.map((crop) => (
+                      <RotatieItem crop={crop}  />
+                    ))}
+>>>>>>> c7e98a45e20e56d686e7a047d511b9ffbc0495f0
                   </div>
                 ) : (
                   <h3>Nu ai adaugat culturi</h3>

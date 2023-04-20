@@ -50,6 +50,7 @@ function RotatieDashboard() {
   if (isLoading) {
     return <Spinner />;
   }
+<<<<<<< HEAD
   console.log(crops);
 
   if (data.rol == 'Fermier') {
@@ -64,6 +65,21 @@ function RotatieDashboard() {
               {crops.length > 0 ? (
                 <div className='crops'>
                   <p>Ai selectat pentru rotatie:</p>
+=======
+console.log(crops)
+  if (data.rol == "Fermier"){
+    return(
+      <>
+    <Container><Card>
+      <section className='heading'>
+        <h1>Salut {data && data.name}</h1> 
+      </section>
+      <section className='content'>
+        {crops.length > 0 ? (
+          <div className='crops'>
+            <p>Ai selectat pentru rotatie:</p>
+     
+>>>>>>> c7e98a45e20e56d686e7a047d511b9ffbc0495f0
 
                   {crops.filter((crop) => crop.selectareBy === id).length == 0 ? (
                     <p>Nu ai selectat nici o cerere</p>
@@ -77,6 +93,7 @@ function RotatieDashboard() {
                 <h3>Nici o selectie momentan</h3>
               )}
 
+<<<<<<< HEAD
               {cropRotation.length > 0 && (
                 <div className='rotation'>
                   <h3>Rotatia generata:</h3>
@@ -99,6 +116,20 @@ function RotatieDashboard() {
       </>
     );
   }
+=======
+          </div>
+        ) : (
+          <h3>Nici o selectie momentan</h3>
+        )}
+
+      </section>
+      </Card>
+<LinkParola/>
+      </Container>
+    </>
+    )
+  } 
+>>>>>>> c7e98a45e20e56d686e7a047d511b9ffbc0495f0
 }
 
 export default RotatieDashboard;
