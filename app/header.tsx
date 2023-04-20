@@ -5,16 +5,16 @@ import Image from 'next/image';
 export default function Header() {
   return (
     <div className="bg-light">
-      <header id="header" className="bg-success py-2 rounded mx-auto w-100" style={{ maxWidth: '1200px' }}>
-        <div className="container d-flex align-items-center justify-content-between">
+      <header id="header" className="bg-success py-2">
+        <div className="container-fluid d-flex align-items-center justify-content-between">
           <Link href="/" className="logo d-flex align-items-center">
-            <Image src="/../public/Logo.jpg" width={50} height={50} alt="Platforma agricola logo" />
+            <Image src="/../public/Logo.png" width={50} height={50} alt="Platforma agricola logo" />
             <span className="ms-2 text-white">Platforma agricola</span>
           </Link>
           <nav id="navbar" className="navbar">
             <ul className="d-flex align-items-center justify-content-end mb-0">
               <li className="nav-item nav-list">
-                <Link href="/" className="nav-link text-light px-2 ">Acasa
+                <Link href="/" className="nav-link text-light px-2">Acasa
                 </Link>
               </li>
               <li className="nav-item nav-list">
@@ -37,7 +37,7 @@ export default function Header() {
                 <Link href="/pages/contact" className="nav-link text-light px-2">Contacteaza-ne
                 </Link>
               </li>
-              <li className="nav-item nav-list">
+              <li className="nav-item nav-list ms-auto">
                 <HeaderLog />
               </li>
             </ul>

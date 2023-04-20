@@ -2,27 +2,28 @@
 import React from 'react';
 import { useRouter } from 'next/navigation';
 import { useGlobalContextPost } from '../../../Context/postStore';
+import { useGlobalContext} from '../../../Context/UserStore';
 import { useEffect } from 'react';
-import  Spinner  from '../../../Crud/Spinner';
+import Spinner from '../../../Crud/Spinner';
 import { UserInfos } from '../../Login/Dashboard/userInfos';
-import { Container, Card } from 'react-bootstrap';
+import { Container, Card, Button } from 'react-bootstrap';
 import PostForm from '../../../Crud/PostForm';
 import Continut from '../../../Crud/GetAllPosts/page';
 
-
-
 function Postari() {
-    const { data, loading, getAllPosts } = useGlobalContextPost();
-   
+    const { data, loading, getAllPosts, deletePost } = useGlobalContextPost();
+    const { data: user } = useGlobalContext();
+    const token = user.token;
+
     const router = useRouter();
 
-
     useEffect(() => {
-        localStorage.getItem('user') ?  getAllPosts() : router.push('/login');
-    }, [router]);
+        localStorage.getItem('user') ? getAllPosts() : router.push('/login');
+    }, [router, user  ]);
     if (loading) {
         return <Spinner />;
     }
+
     return (
         <div>
             <Container>
@@ -36,13 +37,26 @@ function Postari() {
                 </Card>
             </Container>
             <Container>
-                
-           {Array.isArray(data) ? <h1>Postari {data} </h1> : <h1>Nu exista postari</h1> }
-                {/* {data.map((data: any) => {
-                    return <Continut key={data.id} data={data} />;
-                })} */}
             </Container>
+
+            <div>
+                <h1>All Posts</h1>
+                <ul>
+                    {Array.isArray(data) && data.map((post) => (
+                    
+                        <li key={post._id}>
+                            <h2>{post.title}</h2>
+                            <p>{post.brief}</p>
+                            <Button variant="danger" onClick={() => deletePost(post._id,token)}>
+                                Delete Post
+                            </Button>
+                        </li>
+                    ))}
+                </ul>
+            </div>
+
         </div>
+
     );
 }
 

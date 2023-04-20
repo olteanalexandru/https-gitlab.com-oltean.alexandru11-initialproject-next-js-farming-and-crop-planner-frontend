@@ -1,29 +1,29 @@
 'use client';
-
-import { createContext, useContext, Dispatch , SetStateAction , useState } from 'react';
+import { createContext, useContext, Dispatch, SetStateAction, useState } from 'react';
 import axios from 'axios';
 
-const API_URL = 'http://localhost:5000/api/crops/'
-const API_URL_crops = 'http://localhost:5000/api/crops/Crops/'
-
+const API_URL = 'http://localhost:5000/api/crops/';
+const API_URL_crops = 'http://localhost:5000/api/crops/Crops/';
+const API_URL_cropRotation = 'http://localhost:5000/api/crops/cropRotation/';
 
 type DataType = {
-
-  titlu: string
-  descriere: string
-  image: string
-  text: string
-  category: string
-  startDate: string
-  endDate: string
-  status: string
-  progress: number
-  priority: string
-  user: string
-  selectare: boolean
-  token: string
-}
-
+  _id: string;
+  cropName: string;
+  cropType: string;
+  cropVariety: string;
+  plantingDate: string;
+  harvestingDate: string;
+  description: string;
+  imageUrl: string;
+  soilType: string;
+  fertilizers: string[];
+  pests: string[];
+  diseases: string[];
+  selectare: boolean;
+  user: string;
+  token: string;
+  ItShouldNotBeRepeatedForXYears: number;
+};
 
 interface ContextProps {
   crops: any;
@@ -36,214 +36,295 @@ interface ContextProps {
   setIsSuccess: Dispatch<SetStateAction<boolean>>;
   message: string;
   setMessage: Dispatch<SetStateAction<string>>;
-  createCrop: (data: DataType,token:string ) => Promise<void>;
-  getCrops: () => Promise<void>;
+  createCrop: (data: DataType, token: string) => Promise<void>;
+  getCrops: (token: string) => Promise<void>;
   deleteCrop: (id: string, token: string) => Promise<void>;
-  selectare: (id: string, selectare: boolean, _id:string, token: string ) => Promise<void>;
+  selectare: (id: string, selectare: boolean, _id: string, token: string) => Promise<void>;
   SinglePage: (id: string) => Promise<void>;
   getAllCrops: () => Promise<void>;
+  updateCrop: (id: string, data: DataType, token: string) => Promise<void>;
+  cropRotation: any;
+  setCropRotation: Dispatch<SetStateAction<any>>;
+  generateCropRotation: (fieldSize: number, numberOfDivisions: number, token: string) => Promise<void>;
+  getCropRotation: (
+    fieldSize: number,
+    numberOfDivisions: number,
+    token: string
+  ) => Promise<void>;
 }
 
-
-const ContextProps  = createContext<ContextProps>({
-    crops: [],
-    setCrops: () => {},
-    isLoading: false,
-    setIsLoading: () => {},
-    isError: false,
-    setIsError: () => {},
-    isSuccess: false,
-    setIsSuccess: () => {},
-    message: '',
-    setMessage: () => {},
-    createCrop: () => Promise.resolve(),
-    getCrops: () => Promise.resolve(),
-    deleteCrop: () => Promise.resolve(),
-    selectare: () => Promise.resolve(),
-    SinglePage: () => Promise.resolve(),
-    getAllCrops: () => Promise.resolve(),
-}
-)
+const ContextProps = createContext<ContextProps>({
+  crops: [],
+  setCrops: () => {},
+  isLoading: false,
+  setIsLoading: () => {},
+  isError: false,
+  setIsError: () => {},
+  isSuccess: false,
+  setIsSuccess: () => {},
+  message: '',
+  setMessage: () => {},
+  createCrop: () => Promise.resolve(),
+  getCrops: () => Promise.resolve(),
+  deleteCrop: () => Promise.resolve(),
+  selectare: () => Promise.resolve(),
+  SinglePage: () => Promise.resolve(),
+  getAllCrops: () => Promise.resolve(),
+  updateCrop: () => Promise.resolve(),
+  cropRotation: [],
+  setCropRotation: () => {},
+  generateCropRotation: () => Promise.resolve(),
+  getCropRotation: () => Promise.resolve(),
+});
 
 interface Props {
-    children: React.ReactNode;
-  }
+  children: React.ReactNode;
+}
 
+const GlobalContext = createContext<ContextProps>({} as ContextProps);
+export const GlobalContextProvider: React.FC<Props> = ({ children }) => {
+  const [crops, setCrops] = useState<DataType[]>([]);
+  const [token, setToken] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+  const [isError, setIsError] = useState(false);
+  const [isSuccess, setIsSuccess] = useState(false);
+  const [message, setMessage] = useState('');
+  const [cropRotation, setCropRotation] = useState([]);
 
-  const GlobalContext = createContext<ContextProps>({} as ContextProps);
- export const GlobalContextProvider: React.FC<Props> = ({ children }) => {
-
-   
-    const [crops, setCrops] = useState<DataType>({titlu: '', descriere: '', image: '', text: '', category: '', startDate: '', endDate: '', status: '', progress: 0, priority: '', user: '', selectare: false, token: '' })
-    const [token, setToken] = useState([]);
-    const [isLoading, setIsLoading] = useState(false);
-    const [isError, setIsError] = useState(false);
-    const [isSuccess, setIsSuccess] = useState(false);
-    const [message, setMessage] = useState('');
-
-    
-    
-
-    const createCrop = async (data: DataType , token: string ) => {
-        setIsLoading(true);
-        try {
-        const response = await axios.post(API_URL, data, {
-            headers: {
-            Authorization: `Bearer ${token}`,
-            },
-        });
-        if (response.status === 201) {
-            setIsSuccess(true);
-            setMessage('Crop created successfully');
-        } else {
-            setIsError(true);
-            setMessage('Error creating crop');
-        }
-        } catch (err) {
+  const createCrop = async (data: DataType, token: string) => {
+    setIsLoading(true);
+    try {
+      const response = await axios.post(API_URL, data, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      if (response.status === 201) {
+        setIsSuccess(true);
+        setMessage('Crop created successfully');
+      } else {
         setIsError(true);
         setMessage('Error creating crop');
-        }
-        setIsLoading(false);
-    };
+      }
+    } catch (err) {
+      setIsError(true);
+      setMessage('Error creating crop');
+    }
+    setIsLoading(false);
+  };
 
-    
-    const getCrops = async () => {
-        setIsLoading(true);
-        try {
-        const response = await axios.get(API_URL, {
-            headers: {
-            Authorization: `Bearer ${token}`,
-            },
-        });
-        if (response.status === 200) {
-            const data = await response.data;
-            setCrops(data);
-        } else {
-            setIsError(true);
-            setMessage('Error getting crops');
-        }
-        } catch (err) {
+  const updateCrop = async (id: string, data: DataType, token: string) => {
+    setIsLoading(true);
+    try {
+      const response = await axios.put(API_URL + id, data, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      if (response.status === 200) {
+        setIsSuccess(true);
+        setMessage('Crop updated successfully');
+      } else {
+        setIsError(true);
+        setMessage('Error updating crop');
+      }
+    } catch (err) {
+      setIsError(true);
+      setMessage('Error updating crop');
+    }
+    setIsLoading(false);
+  };
+
+  const getCrops = async (token: string) => {
+    setIsLoading(true);
+    try {
+      const response = await axios.get(API_URL, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      if (response.status === 200) {
+        setCrops(response.data);
+      } else {
         setIsError(true);
         setMessage('Error getting crops');
-        }
-        setIsLoading(false);
-    };
+      }
+    } catch (err) {
+      setIsError(true);
+      setMessage('Error getting crops');
+    }
+    setIsLoading(false);
+  };
 
-    
-    const deleteCrop = async (id: string, token: string) => {
-        setIsLoading(true);
-        try {
-        const response = await axios.delete(API_URL + id, {
-            headers: {
-            Authorization: `Bearer ${token}`,
-            },
-        });
-        if (response.status === 200) {
-            setIsSuccess(true);
-            setMessage('Crop deleted successfully');
-        } else {
-            setIsError(true);
-            setMessage('Error deleting crop');
-        }
-        } catch (err) {
+  const deleteCrop = async (id: string, token: string) => {
+    setIsLoading(true);
+    try {
+      const response = await axios.delete(API_URL + id, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      if (response.status === 200) {
+        setIsSuccess(true);
+        setMessage('Crop deleted successfully');
+      } else {
         setIsError(true);
         setMessage('Error deleting crop');
-        }
-        setIsLoading(false);
-    };
-    
+      }
+    } catch (err) {
+      setIsError(true);
+      setMessage('Error deleting crop');
+    }
+    setIsLoading(false);
+  };
 
-
-    const selectare= async (id: string, selectare: boolean , _id: string , token: string ) => {
-
-        const response = await axios.post(API_URL_crops + id, { selectare : selectare , _id: _id, }, {
-            headers: {
-                Authorization: `Bearer ${token}`,
-            },
-        });
+  const selectare = async (id: string, selectare: boolean, _id: string, token: string) => {
+    const response = await axios.post(API_URL_crops + id, { selectare: selectare, _id: _id }, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
 
     const crops = await response.data;
     setCrops(crops);
+  };
+
+  const SinglePage = async (id: string) => {
+    setIsLoading(true);
+    try {
+      const response = await axios.get(API_URL_crops + id, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      if (response.status === 200) {
+        const data = await response.data;
+        setCrops(data);
+      } else {
+        setIsError(true);
+        setMessage('Error getting crops');
+      }
+    } catch (err) {
+      setIsError(true);
+      setMessage('Error getting crops');
     }
+    setIsLoading(false);
+  };
 
-
-    const SinglePage = async (id: string) => {
-        setIsLoading(true);
-        try {
-        const response = await axios.get(API_URL_crops + id, {
-            headers: {
-            Authorization: `Bearer ${token}`,
-            },
-        });
-        if (response.status === 200) {
-            const data = await response.data;
-            setCrops(data);
-        } else {
-            setIsError(true);
-            setMessage('Error getting crops');
-        }
-        } catch (err) {
+  const getAllCrops = async () => {
+    setIsLoading(true);
+    try {
+      const response = await axios.get(API_URL_crops, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      if (response.status === 200) {
+        const data = await response.data;
+        setCrops(data);
+      } else {
         setIsError(true);
         setMessage('Error getting crops');
-        }
-        setIsLoading(false);
-    };
+      }
+    } catch (err) {
+      setIsError(true);
+      setMessage('Error getting crops');
+    }
+    setIsLoading(false);
+  };
 
-
-    const getAllCrops = async () => {
-        setIsLoading(true);
-        try {
-        const response = await axios.get(API_URL_crops, {
-            headers: {
+  const generateCropRotation = async (
+    fieldSize: number,
+    numberOfDivisions: number,
+    token: string
+  ) => {
+    setIsLoading(true);
+    try {
+      const response = await axios.post(
+        `${API_URL_cropRotation}`,
+        { fieldSize, numberOfDivisions },
+        {
+          headers: {
             Authorization: `Bearer ${token}`,
-            },
-        });
-        if (response.status === 200) {
-            const data = await response.data;
-            setCrops(data);
-        } else {
-            setIsError(true);
-            setMessage('Error getting crops');
+            'Content-Type': 'application/json',
+          },
         }
-        } catch (err) {
+      );
+      if (response.status === 200) {
+        setCropRotation(response.data);
+      } else {
         setIsError(true);
-        setMessage('Error getting crops');
+        setMessage('Error generating crop rotation');
+      }
+    } catch (err) {
+      setIsError(true);
+      setMessage('Error generating crop rotation');
+    }
+    setIsLoading(false);
+  };
+  
+
+  const getCropRotation = async (
+    fieldSize: number,
+    numberOfDivisions: number,
+    token: string
+  ) => {
+    setIsLoading(true);
+    try {
+      const response = await axios.get(
+        `${API_URL_cropRotation}?fieldSize=${fieldSize}&numberOfDivisions=${numberOfDivisions}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
         }
-        setIsLoading(false);
-    };
+      );
+      if (response.status === 200) {
+        setCropRotation(response.data);
+      } else {
+        setIsError(true);
+        setMessage('Error getting crop rotation');
+      }
+    } catch (err) {
+      setIsError(true);
+      setMessage('Error getting crop rotation');
+    }
+    setIsLoading(false);
+  };
 
-
-
-    return (
-        <GlobalContext.Provider
-        value={{
-            crops,
-            setCrops,
-            isLoading,
-            setIsLoading,
-            isError,
-            setIsError,
-            isSuccess,
-            setIsSuccess,
-            message,
-            setMessage,
-            createCrop,
-            getCrops,
-            deleteCrop,
-            selectare,
-            SinglePage,
-            getAllCrops,
-        }}
-        >
-        {children}
-        </GlobalContext.Provider>
-    );
+  return (
+    <GlobalContext.Provider
+      value={{
+        crops,
+        setCrops,
+        isLoading,
+        setIsLoading,
+        isError,
+        setIsError,
+        isSuccess,
+        setIsSuccess,
+        message,
+        setMessage,
+        createCrop,
+        getCrops,
+        deleteCrop,
+        selectare,
+        SinglePage,
+        getAllCrops,
+        updateCrop,
+        cropRotation,
+        setCropRotation,
+        getCropRotation,
+        generateCropRotation,
+      }}
+    >
+      {children}
+    </GlobalContext.Provider>
+  );
 };
 
 export const useGlobalContextCrop = () => {
-    return useContext(GlobalContext);
-}
-
-
+  return useContext(GlobalContext);
+};
 
 // Path: app\features\Context\culturaStore.tsx

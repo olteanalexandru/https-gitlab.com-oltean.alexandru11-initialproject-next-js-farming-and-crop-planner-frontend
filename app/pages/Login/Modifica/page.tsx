@@ -24,7 +24,7 @@ function Modifica() {
 
   
 
-  const { isLoading, isError, isSuccess, message, modify, data, logout } = useGlobalContext()
+  const { isLoading, isError, message, modify, data, logout } = useGlobalContext()
 
   useEffect(() => {
 
@@ -32,13 +32,8 @@ function Modifica() {
     if (isError) {
       toast.error(message)
     }
-
-     if (isSuccess) {
-       navigate('/youtube')
-        logout()
-
-     }
-  }, [data, isError, isSuccess, message, navigate, logout])
+   
+  }, [ isError])
 
   const onChange = (e) => {
     setFormData((prevState) => ({
@@ -50,15 +45,15 @@ function Modifica() {
   
   const onSubmit = (e) => {
     e.preventDefault()
-console.log(message)
     if (password !== password2) {
       toast.error('Parolele nu se potrivesc')
     } else {
       const userData = {
         password,
       }
-      console.log(userData, data._id)
-      modify(userData.password, data._id)
+      modify(data._id,userData.password)
+      logout()
+      navigate.push('/pages/Login/Login')
     }
   }
 

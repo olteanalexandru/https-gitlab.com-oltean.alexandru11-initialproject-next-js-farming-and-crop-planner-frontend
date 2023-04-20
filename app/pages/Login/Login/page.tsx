@@ -1,11 +1,12 @@
 "use client"
 import {useEffect, useState} from 'react'
-import {FaSignInAlt} from 'react-icons/fa'
+import {FaSignInAlt, FaUser} from 'react-icons/fa'
 import {useRouter} from 'next/navigation';
 import {toast} from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import {useGlobalContext} from '../../../Context/UserStore'
 import Spinner from '../../../Crud/Spinner'
+import Link from 'next/link';
 
 function Login() {
 
@@ -65,7 +66,7 @@ function Login() {
         <h1>
           <FaSignInAlt /> Login
         </h1>
-        <p>Login and start setting crops</p>
+        <p>Autentifică-te și începe să stabilești culturi</p>
       </section>
 
       <section className='form'>
@@ -99,6 +100,13 @@ function Login() {
             </button>
           </div>
         </form>
+        <ul>
+        <li className="nav-link-login d-inline-block">
+              <Link href="/pages/Login/Register" className="text-decoration-none text-dark">
+                Nu ai cont?  Înregistrează-te <FaUser />
+              </Link>
+            </li>
+        </ul>
       </section>
     </>
   )

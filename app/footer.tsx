@@ -4,7 +4,7 @@ import Mail from "./Componente/Mail"
 export default function Footer() {
   return (
     <div className="bg-light" style={{ borderTop: '1px dotted' }}>
-      <footer id="footer" className="bg-success py-2 rounded mx-auto w-100" style={{ maxWidth: '1200px' }}>
+      <footer id="footer" className="bg-success py-2 rounded mx-auto w-100" style={{ maxWidth: '1200px' , marginTop: '10px' }}>
         <div className="container">
           <div className="row">
             <div className="col-lg-3 col-md-6">
@@ -20,7 +20,7 @@ export default function Footer() {
           <ul>
             <li className="nav-list"><Link href="/" className="nav-link text-light">Home</Link></li>
             <li className="nav-list"><Link href="/pages/desprenoi" className="nav-link text-light">Despre noi</Link></li>
-            <li className="nav-list"><Link href="/pages/noutati" className="nav-link text-light">Noutati</Link></li>
+            <li className="nav-list"><Link href="/pages/Noutati" className="nav-link text-light">Noutati</Link></li>
             <li className="nav-list"><Link href="/pages/contact" className="nav-link text-light">Contact</Link></li>
           </ul>
         </div>

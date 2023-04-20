@@ -7,6 +7,7 @@ import Continut from '../../Crud/GetAllPosts/page';
 
 export default function Noutati() {
   const { data, loading, getAllPosts } = useGlobalContextPost();
+  
 
   useEffect(() => {
     getAllPosts();

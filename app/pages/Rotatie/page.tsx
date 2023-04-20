@@ -45,12 +45,10 @@ export default function Rotatie() {
   }
 
 
-
 return (
-
 <div className="container text-center bg-grey border-colorat" style={{'paddingBottom':'4rem'}}>
-  <h2 style={{marginBottom:' 3rem'}}>Oferim spre crop</h2>
-  {crops.length > 0 ? (
+  <h2 style={{marginBottom:' 3rem'}}>Culturi adaugate:</h2>
+  {crops && crops.length > 0 ? (
     <div  >
           <GridGenerator   cols={3}  >
 

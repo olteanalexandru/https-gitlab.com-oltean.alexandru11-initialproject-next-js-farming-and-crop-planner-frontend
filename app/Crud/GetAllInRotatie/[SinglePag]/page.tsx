@@ -1,136 +1,194 @@
-
 "use client"
-import { useEffect, useState } from 'react'
-import { useSearchParams} from 'next/navigation'
-import { Form } from 'react-bootstrap';
-import { Container } from 'react-bootstrap';
+import React, { useEffect, useState } from 'react';
+import { useSearchParams } from 'next/navigation';
+import { Form, Container, Button } from 'react-bootstrap';
+import { useRouter } from 'next/navigation';
 import { useGlobalContext } from '../../../Context/UserStore';
 import { useGlobalContextCrop } from '../../../Context/culturaStore';
 
+function SinglePag(): JSX.Element {
+  const { data: userData } = useGlobalContext();
+  const {
+    crops,
+    isLoading,
+    isError,
+    message,
+    selectare,
+    SinglePage,
+    deleteCrop,
+    updateCrop,
+  } = useGlobalContextCrop();
 
-function SinglePag( ): JSX.Element{
+  const navigate = useRouter();
+  const _id = useSearchParams().get('crop') as string;
 
-  if (localStorage.getItem('user') === null) {
-    return <h1>Accesul interzis</h1>
-  } 
+  const token = userData.token;
+  const LocaluserId = userData._id;
+  const [selectarea, setSelectarea] = useState(false);
+  const [editMode, setEditMode] = useState(false);
+  const [updatedCrop, setUpdatedCrop] = useState({
+    cropName: '',
+    ItShouldNotBeRepeatedForXYears: '',
+    description: '',
+  });
 
-  
-    const { data } = useGlobalContext()
-
-
-
-    const  _id = useSearchParams().get("crop") as string
-    const user = localStorage.getItem('user')
-    const Localuser  = localStorage.getItem('user')
-    const LocaluserId = Localuser !== null ? JSON.parse(Localuser)._id : null
-    const token = user !== null ? JSON.parse(user).token : null
-
-    const { 
-      crops,
-      setCrops,
-      isLoading,
-      isError,
-      isSuccess,
-      message,
-      selectare,
-      SinglePage,
-      } = useGlobalContextCrop();
-
-
-    const [selectarea, setSelectarea] = useState(false);
-
-    useEffect(() => {
-      if (isError) {
-        console.log(message)
-      }
-      SinglePage(_id )
-    }, [  isError, message, _id])
-
-    if (isLoading) {
-      return <h1>Loading...</h1>
-    }
-
+  useEffect(() => {
     if (isError) {
-      return <h1>{message}</h1>
+      console.log(message);
     }
+    SinglePage(_id);
+  }, [isError, message, _id]);
 
-
-
-
-
-
-// console.log(LocaluserId)
-console.log(selectare)
-
-
-
-
-    const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-      e.preventDefault();
-      if (data && data.rol === "client" && selectarea === true || data && data.rol === "admin" && selectarea === true) {
-        await selectare(_id , selectarea , LocaluserId  , token)
-        setSelectarea(false)
-      } else if (data && data.rol === "client" && selectarea === false || data && data.rol === "admin" && selectarea === false) {
-        await selectare(_id , selectarea , LocaluserId , token) 
-        setSelectarea(true)
-
+  useEffect(() => {
+    if (crops) {
+      setUpdatedCrop({
+        cropName: crops.cropName,
+        ItShouldNotBeRepeatedForXYears: crops.ItShouldNotBeRepeatedForXYears,
+        description: crops.description,
+      });
     }
+  }, [crops]);
+
+  if (isLoading) {
+    return <h1>Loading...</h1>;
+  }
+
+  if (isError) {
+    return <h1>{message}</h1>;
+  }
+
+  const handleDelete = async () => {
+    try {
+      await deleteCrop(_id, token);
+      console.log('Crop deleted');
+      navigate.push('/pages/Rotatie');
+    } catch (error) {
+      console.error('Error deleting crop:', error);
     }
-  
+  };
+
+  const handleUpdate = async (e) => {
+    e.preventDefault();
+    await updateCrop(_id, updatedCrop, token);
+    setEditMode(false);
+  };
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setUpdatedCrop({ ...updatedCrop, [name]: value });
+  };
+
+  const canEdit = userData.rol === 'Administrator' || userData._id === crops.user;
 
 
-    function CropData() {
-      if (isError) {
-        return <h1>Something went wrong.</h1>;
-      } else if (data && data.rol === "client") {
-        return (
+
+const onSubmit = async (e: React.FormEvent<HTMLFormElement>, newSelectArea: boolean) => {
+  e.preventDefault();
+  if (userData && userData.rol === "Fermier") {
+    await selectare(_id, newSelectArea, LocaluserId, token);
+    setSelectarea(newSelectArea);
+  }
+}
+
+  return (
+    <Container>
+      {editMode ? (
+        <Form onSubmit={handleUpdate}>
+          <Form.Group>
+            <Form.Label>Title</Form.Label>
+            <Form.Control
+              type="text"
+              name="cropName"
+              value={updatedCrop.cropName}
+              onChange={handleChange}
+            />
+          </Form.Group>
+          <Form.Group>
+            <Form.Label>Nu se va repeta pentru x ani:</Form.Label>
+            <Form.Control
+              as="textarea"
+              rows={3}
+              name="ItShouldNotBeRepeatedForXYears"
+              value={updatedCrop.ItShouldNotBeRepeatedForXYears}
+              onChange={handleChange}
+            />
+          </Form.Group>
+          <Form.Group>
+            <Form.Label>Description</Form.Label>
+            <Form.Control
+              as="textarea"
+              rows={5}
+              name="description"
+              value={updatedCrop.description}
+              onChange={handleChange}
+            />
+          </Form.Group>
+          <Button variant="primary" type="submit">
+            Save Changes
+          </Button>
+          <Button variant="secondary" onClick={() => setEditMode(false)}>
+            Cancel
+          </Button>
+        </Form>
+      ) : (
+        <>
+          {crops ? (
+            <div
+            id="background"
+            className="jumbotron textCenter"
+            style={{ borderBottom: '1px darkgray dotted' }}
+          >
+            <div className="thumbnail">
+              <p>
+                <strong>{crops['cropName']}</strong>
+              </p>
+              <p>Pests: {crops['pests']}</p>
+              <p>Diseases: {crops['diseases']}</p>
+              <p>Soil type: {crops['soilType']}</p>
+              <p>Climate: {crops['climate']}</p>
+              <p>It should not be repeated for {crops['ItShouldNotBeRepeatedForXYears']} years</p>   
+
+              {crops.imageUrl && (
+            <img
+              src={'data:image/jpeg;' + crops.imageUrl.substring(2, crops.imageUrl.length - 2)}
+              alt={crops.cropName}
+              style={{ width: 300, height: 400 }}
+            />
+          )}
+              <h3>Descriere:</h3>
+              <p>{crops['description']}</p>
+            </div>
+            <p>
+              Data adaugarii:{' '}
+              {new Date(crops['createdAt']).toLocaleString('en-US')}
+            </p>
+          </div>
+        ) : (
+          <h3>Item not found or deleted.</h3>
+        )}
+        {canEdit && (
           <>
-            <p>Selectare cultura</p>
-            <Form onSubmit={onSubmit} >
-              <div className="form-check">
-                <input className="form-check-input" type="checkbox" value={selectarea} onChange={(e) => setSelectarea(e.target.checked)} id="defaultCheck1" />
-                <label className="form-check-label" htmlFor="defaultCheck1">
-                  Selecteaza
-                </label>
-              </div>
-              <button type='submit' className='btn btn-primary'>Selectare</button>
-            </Form>
-          </>
-        )
-      } else if (data && data.rol === "admin") {
-        return (
-          <>
-            <p>Selectare cultura</p>
-            <Form onSubmit={onSubmit} >
-              <div className="form-check">
-                <input className="form-check-input" type="checkbox" value={selectarea} onChange={(e) => setSelectarea(e.target.checked)} id="defaultCheck1" />
-                <label className="form-check-label" htmlFor="defaultCheck1">
-                  Selecteaza
-                </label>
-              </div>
-              <button type='submit' className='btn btn-primary'>Selectare</button>
-            </Form>
-          </>
-        )
-      } else { return null }
-    }
+            <Button variant="danger" onClick={handleDelete}>
+              Delete
+            </Button>
+            <Button variant="primary" onClick={() => setEditMode(true)}>
+              Edit
+            </Button>
+           
+         {userData && userData.rol === "Fermier" && (
+          <Button variant='succes' onClick={() => onSubmit( event , !selectarea)}>
+            {selectarea ? 'Deselecteaza' : 'Selecteaza'}
+          </Button>
+        )}
+   
+
     
- return  (
-
-   <>
-<Container>
-<div id="background" className="jumbotron textCenter " style={{ 'borderBottom': '1px darkgray dotted' }}>
-<div className=" thumbnail">
-<p><strong>{crops["titlu"]}</strong></p>
-<h3>Pe scurt:</h3><p>{crops["text"]}</p>
-<h3>Pe Lung:</h3><p>{crops["descriere"]}</p>
-{(crops["selectare"] && crops["selectareBy"]== LocaluserId ) ?  <> <h3>Selectat</h3> <p> {crops["selectare"]} </p></> : <p>ne selectat</p>}
-<h1>{token}</h1>
-</div>
-<p>Data adaugarii: {new Date(crops["createdAt"]).toLocaleString('en-US')}</p>
-</div>
-<CropData/>
-</Container>
- </>
+      </>
+    )}
+  </>
 )}
- export default SinglePag
+  </Container>
+);
+}
+
+export default SinglePag;
